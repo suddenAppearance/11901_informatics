@@ -16,34 +16,38 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
+
 </head>
 <body style="background: url(https://avatanplus.com/files/resources/original/577c80ded65a0155be57669e.jpg)">
 	<div class="container-fluid justify-content-center col-6 py-md-5">
-	<div class="list-group container-fluid col-md-3">
-	<ul class="list-group" style="overflow: hidden">
-		<form>
+	<div class="list-group container-fluid col-md-6">
+	<ul class="list-group border-radius-5px" >
+		<form action="https://www.yandex.ru/search" method="get">
 		<li class="list-group-item list-group-item-action mark " style="color: blue; font-weight: bold">
-			Yandex
-			<input type="text" placeholder="Поиск"/>
+			<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81.svg/1200px-%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81.svg.png" style="width: 14%"/>
+			<input type="text" name="text" placeholder="Поиск"/>
+			<input type="submit" value="Поиск" class="btn btn-primary" style="margin-left: 8%"/>
 		</li>
 		</form>
-		<form>
+		<form action="https://www.google.com/search" method="get">
 		<li class="list-group-item list-group-item-action mark " style="color: blue; font-weight: bold">
-			Google 
+			<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png" style="width: 14%;"/>
 			<input type="text" name="q" placeholder="Поиск"/>
-			<input type="submit"
+			<input type="submit" value="Поиск" class="btn btn-primary" style="margin-left: 8%"/>
 		</li>
 		</form>
-		<form>
+		<form action="https://www.go.mail.ru/search" method="get">
 		<li class="list-group-item list-group-item-action mark " style="color: blue; font-weight: bold">
-			MailRu
-			<input type="text" placeholder="Поиск"/>
+			<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Mail.Ru_logo.svg/1280px-Mail.Ru_logo.svg.png" style="width: 14%;"/>
+			<input type="text" name="q" placeholder="Поиск"/>
+			<input type="submit" value="Поиск" class="btn btn-primary" style="margin-left: 8%"/>
 		</li>
 		</form>
-		<form>
+		<form action="https://www.search.yahoo.com/search" method="get">
 		<li class="list-group-item list-group-item-action mark " style="color: blue; font-weight: bold">
-			Yahoo!
-			<input type="text" name="" placeholder="Поиск"/>
+			<img src="https://1000logos.net/wp-content/uploads/2017/05/Yahoo-logo.png" style="width: 14%;"/>
+			<input type="text" name="p" placeholder="Поиск"/>
+			<input type="submit" value="Поиск" class="btn btn-primary" style="margin-left: 8%"/>
 		</li>
 		</form>
 	</ul>

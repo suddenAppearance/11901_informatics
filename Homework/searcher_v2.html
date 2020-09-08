@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Поиск</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script>
+        function f(){
+            let x = document.getElementById("comboBox").value
+            switch (x){
+                case "Yandex":
+                    document.getElementById("form").action = "https://yandex.ru/search"
+                    document.getElementById("query").name = "text"
+                    break;
+                case "Google":
+                    document.getElementById("form").action = "https://google.com/search"
+                    document.getElementById("query").name = "q"
+                    break;
+                case "MailRu":
+                    document.getElementById("form").action = "https://go.mail.ru/search"
+                    document.getElementById("query").name = "q"
+                    break;
+                case "Yahoo!":
+                    document.getElementById("form").action = "https://search.yahoo.com/search"
+                    document.getElementById("query").name = "p"
+                    break;
+            }
+        }
+    </script>
+</head>
+<body style="background: url(https://avatanplus.com/files/resources/original/577c80ded65a0155be57669e.jpg)">
+<div class="container-fluid justify-content-center col-6 py-md-5">
+    <div class="list-group container-fluid col-md-6">
+        <ul class="list-group border-radius-5px" >
+            <form action="https://www.yandex.ru/search" method="get" id="form">
+                <li class="list-group-item list-group-item-action mark " style="color: blue; font-weight: bold">
+                    <select id="comboBox">
+                        <option value="Yandex" selected>
+                            Yandex
+                        </option>
+                        <option value="Google">
+                            Google
+                        </option>
+                        <option value="MailRu">
+                            MailRu
+                        </option>
+                        <option value="Yahoo!">
+                            Yahoo!
+                        </option>
+                    </select>
+                    <input type="text" name="text" placeholder="Поиск" id="query"/>
+                    <input type="submit" value="Поиск" onclick="f()" class="btn btn-primary" style="margin-left: 8%"/>
+                </li>
+            </form>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

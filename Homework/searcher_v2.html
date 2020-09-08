@@ -36,6 +36,10 @@
                     document.getElementById("form").action = "https://search.yahoo.com/search"
                     document.getElementById("query").name = "p"
                     break;
+                case "Bing":
+                    document.getElementById("form").action = "https://bing.com/search"
+                    document.getElementById("query").name = "q"
+                    break;
             }
         }
     </script>
@@ -58,6 +62,9 @@
                         </option>
                         <option value="Yahoo!">
                             Yahoo!
+                        </option>
+                        <option value="Bing">
+                            Bing
                         </option>
                     </select>
                     <input type="text" name="text" placeholder="Поиск" id="query"/>

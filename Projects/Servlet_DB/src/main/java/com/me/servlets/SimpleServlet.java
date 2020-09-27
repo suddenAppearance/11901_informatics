@@ -25,9 +25,12 @@ public class SimpleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name_input");
         try {
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         UserDAO userDAO = new UserDAO(connection);
         userDAO.createUser(name);

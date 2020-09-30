@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"
+    >
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
+    <style>
+        .btn-primary {
+            border-radius: 5px;
+            border-style: outset;
+            padding: 3px;
+        }
+    </style>
+    <style>
+        .btn-success {
+            border-radius: 5px;
+            border-style: outset;
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+<h1>Create User</h1>
+<form action="/insert" method="post">
+    <table>
+        <tr>
+            <th><label for="name_input"> Name </label><input name="name_input" maxlength="30" id="name_input"
+                                                             placeholder="Your name">
+            </th>
+        </tr>
+        <tr>
+            <th><label for="surname_input"> Surname </label><input name="surname_input" id="surname_input"
+                                                                   maxlength="30"
+                                                                   placeholder="Your surname"></th>
+        </tr>
+        <tr>
+            <th><label for="age_input">Age</label>
+                <input name='age_input' id='age_input' type="number" max="150" placeholder="age">
+            </th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th><input type="submit" value="Create" class="btn-success"></th>
+            <th><input type="button" class="btn-primary" onclick="window.location.href='/users'" value="Users List">
+            </th>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -1,15 +1,15 @@
 package com.me.Models;
 
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
     private Long id;
-    private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
+    private String firstName;
+    private String lastName;
+    private Integer age;
 }

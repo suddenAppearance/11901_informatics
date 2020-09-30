@@ -1,3 +1,5 @@
-com\me\servlets\SimpleServlet.class
+com\me\servlets\CreateUserServlet.class
 com\me\DAO\UserDAO.class
 com\me\Models\User.class
+com\me\Models\User$UserBuilder.class
+com\me\servlets\UsersServlet.class

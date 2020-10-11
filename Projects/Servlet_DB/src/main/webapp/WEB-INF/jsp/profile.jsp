@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Title</title>
@@ -25,22 +25,12 @@
 <body>
 <table>
     <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Age</th>
-        <th><a href="/insert" style="color: greenyellow; text-decoration: none">&#8853;</a></th>
+        <td>${user.firstName}</td>
+        <td>${user.lastName}</td>
+        <td>${user.age}</td>
     </tr>
-
-    <c:forEach items="${users}" var="user">
-        <tr>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
-            <td>${user.age}</td>
-        </tr>
-    </c:forEach>
-
 </table>
-
+<form action="/logout" method="get">
+<input type="submit" value="Выйти" class="btn-danger"></form>
 </body>
 </html>

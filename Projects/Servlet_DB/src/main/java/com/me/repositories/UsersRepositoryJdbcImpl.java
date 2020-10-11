@@ -4,6 +4,7 @@ import com.me.Models.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,9 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     private Connection connection;
 
     private SimpleJdbcTemplate jdbcTemplate;
+    //language=SQL
+    private static final String SQL_AUTH
+            = "select * from person where login = ? and p_hash = ?";
 
     public UsersRepositoryJdbcImpl(Connection connection) {
         this.connection = connection;
@@ -29,9 +33,8 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     }
 
     private RowMapper<User> usersRowMapper = row -> User.builder()
-            .id(row.getLong("id"))
-            .firstName(row.getString("first_name"))
-            .lastName(row.getString("last_name"))
+            .firstName(row.getString("firstname"))
+            .lastName(row.getString("lastname"))
             .age(row.getInt("age"))
             .build();
 
@@ -61,6 +64,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             preparedStatement.setInt(5, entity.getAge());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             throw new IllegalArgumentException("wrong input");
         }
     }
@@ -77,6 +81,22 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     @Override
     public void deleteById(Long id) {
+
+    }
+
+    @Override
+    public User authorize(String login, String password) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_AUTH);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) return null;
+            return usersRowMapper.mapRow(resultSet);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new IllegalStateException();
+        }
 
     }
 }

@@ -20,6 +20,9 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     //language=SQL
     private static final String SQL_INSERT_USER
             = "insert into person(login, p_hash, firstname, lastname, age) values (?, ?, ?, ?, ?)";
+    //language=SQL
+    private static final String SQL_FIND_ALL_USERS_BY_NAME
+            = "select * from person where firstname like ?%";
     private Connection connection;
 
     private SimpleJdbcTemplate jdbcTemplate;
@@ -51,6 +54,11 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     @Override
     public List<User> findAll() {
         return jdbcTemplate.queryForList(SQL_FIND_ALL_USERS, usersRowMapper);
+    }
+
+    @Override
+    public List<User> findAllByNameStartingWith(String name) {
+        return jdbcTemplate.queryForList(SQL_FIND_ALL_USERS_BY_NAME, usersRowMapper, name);
     }
 
     @Override

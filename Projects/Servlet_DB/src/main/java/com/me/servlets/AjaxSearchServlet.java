@@ -1,5 +1,6 @@
 package com.me.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.me.Models.User;
 import com.me.repositories.UsersRepository;
 import com.me.repositories.UsersRepositoryJdbcImpl;
@@ -14,18 +15,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@WebServlet("/insert")
-public class CreateUserServlet extends HttpServlet {
+@WebServlet("/search")
+public class AjaxSearchServlet extends HttpServlet {
     public static final String DB_USERNAME = "postgres";
     public static final String DB_PASSWORD = "d06042001";
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     private Connection connection;
     private UsersRepository usersRepository;
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/html/insert.html").forward(req, resp);
-    }
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void init() {
@@ -40,20 +37,14 @@ public class CreateUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstName = req.getParameter("name_input");
-        String lastName = req.getParameter("surname_input");
-        Integer age = Integer.valueOf(req.getParameter("age_input"));
-        String login = req.getParameter("login_input");
-        //no hash
-        String pass_hash = req.getParameter("password_input");
-        usersRepository.save(User.builder()
-                .age(age)
-                .lastName(lastName)
-                .firstName(firstName)
-                .login(login)
-                .password_hash(pass_hash)
-                .build());
-        resp.setStatus(302);
-        resp.setHeader("Location", "/profile");
+        User user = objectMapper.readValue(req.getReader(), User.class);
+        String users = objectMapper.writeValueAsString(usersRepository.findAllByNameStartingWith(user.getFirstName()));
+        resp.setContentType("application/json");
+        resp.getWriter().println(users);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("WEB-INF/html/search.html").forward(req, resp);
     }
 }

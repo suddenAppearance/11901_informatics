@@ -16,7 +16,6 @@ public class SimpleJdbcTemplate {
     }
 
     public <T> List<T> queryForList(String sql, RowMapper<T> rowMapper, Object... args) {
-        System.out.println(args);
         try {
             ResultSet resultSet = null;
 

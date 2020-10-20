@@ -1,12 +1,13 @@
+com\me\servlets\CreateUserServlet.class
+com\me\servlets\AjaxSearchServlet.class
+com\me\servlets\LoginServlet.class
+com\me\servlets\ProfileServlet.class
 com\me\repositories\CrudRepository.class
 com\me\repositories\RowMapper.class
-com\me\servlets\CreateUserServlet.class
 com\me\repositories\UsersRepository.class
 com\me\Models\User$UserBuilder.class
 com\me\Models\User.class
-com\me\servlets\LoginServlet.class
 com\me\repositories\SimpleJdbcTemplate.class
 com\me\repositories\UsersRepositoryJdbcImpl.class
-com\me\servlets\ProfileServlet.class
 com\me\servlets\UsersServlet.class
 com\me\servlets\LogoutServlet.class

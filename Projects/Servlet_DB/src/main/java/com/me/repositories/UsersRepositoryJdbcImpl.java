@@ -22,7 +22,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             = "insert into person(login, p_hash, firstname, lastname, age) values (?, ?, ?, ?, ?)";
     //language=SQL
     private static final String SQL_FIND_ALL_USERS_BY_NAME
-            = "select * from person where firstname like ?%";
+            = "select * from person where firstname like ?";
     private Connection connection;
 
     private SimpleJdbcTemplate jdbcTemplate;
@@ -35,7 +35,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
         this.jdbcTemplate = new SimpleJdbcTemplate(connection);
     }
 
-    private RowMapper<User> usersRowMapper = row -> User.builder()
+    private final RowMapper<User> usersRowMapper = row -> User.builder()
             .firstName(row.getString("firstname"))
             .lastName(row.getString("lastname"))
             .age(row.getInt("age"))
@@ -58,7 +58,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     @Override
     public List<User> findAllByNameStartingWith(String name) {
-        return jdbcTemplate.queryForList(SQL_FIND_ALL_USERS_BY_NAME, usersRowMapper, name);
+        return jdbcTemplate.queryForList(SQL_FIND_ALL_USERS_BY_NAME, usersRowMapper, name + "%");
     }
 
     @Override

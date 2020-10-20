@@ -29,6 +29,7 @@
         <th>Last Name</th>
         <th>Age</th>
         <th><a href="/insert" style="color: greenyellow; text-decoration: none">&#8853;</a></th>
+        <th><a href="/users/search">Find</a></th>
     </tr>
 
     <c:forEach items="${users}" var="user">

@@ -15,8 +15,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@WebServlet("/search")
-public class AjaxSearchServlet extends HttpServlet {
+@WebServlet("/users/search")
+public class SearchServlet extends HttpServlet {
     public static final String DB_USERNAME = "postgres";
     public static final String DB_PASSWORD = "d06042001";
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
@@ -45,6 +45,6 @@ public class AjaxSearchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/html/search.html").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/html/search.html").forward(req, resp);
     }
 }

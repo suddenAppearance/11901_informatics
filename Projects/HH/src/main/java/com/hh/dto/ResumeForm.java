@@ -1,17 +1,9 @@
-package com.hh.models;
-
-import lombok.*;
+package com.hh.dto;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-public class Resume {
-    Long id;
+public class ResumeForm {
+    String id;
     String name;
     Date created;
     Boolean readyToBusinessTrip;
@@ -20,8 +12,8 @@ public class Resume {
     String schedule;
     String type;
     Integer experience;
+    Integer[] workplaces_id;
     String description;
-    Integer salary;
     String contact_info;
-    User account;
+    Integer salary;
 }

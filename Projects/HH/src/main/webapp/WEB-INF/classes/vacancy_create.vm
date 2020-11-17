@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать вакансию. HH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+        <form action="/vacancy/create" method="POST">
+            <input type="text" name="name" placeholder="Имя" required/>
+            <input type="text" name="sphere" placeholder="Сфера" required/>
+            <input type="text" name="schedule" placeholder="График работы" required/>
+            <input type="text" name="type" placeholder="Тип работы" required/>
+            <input type="text" name="payment_schedule" placeholder="Выдача зарплаты" required/>
+            <input type="number" name="experience" placeholder="Стаж работы" required/>
+            <input type="text" name="place" placeholder="Место работы" required/>
+            <input type="text" name="address" placeholder="Адрес места работы" required/>
+            <textarea name="requirements" placeholder="Обязанности" required></textarea>
+            <textarea type="text" name="description" placeholder="Описание" required></textarea>
+            <input type="text" name="tags" placeholder="Теги (через запятую)" required/>
+            <input type="text" name="contact_info" placeholder="Контактная информация" required/>
+            <input type="number" name="salary" placeholder="Заработная плата" required/>
+            <input type="submit" value="Создать" required/>
+        </form>
+</body>
+</html>

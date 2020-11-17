@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои вакансии. HH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+    $user.getLogin()
+    #foreach($vacancy in $vacancies)
+    <div>
+        #if($vacancy.getName())
+            <div><h1>$vacancy.getName()</h1><h6>
+                #if($vacancy.getCreationDate())
+                    $vacancy.getCreationDate()
+                #end</h6></div>
+        #end
+        #if($vacancy.getSphere())
+        <div><p>$vacancy.getSphere()</p></div>
+        #end
+        #if($vacancy.getSchedule())
+        <div><p>$vacancy.getSchedule()</p></div>
+        #end
+        #if($vacancy.getType)
+        <div><p>$vacancy.getType()</p></div>
+        #end
+        #if($vacancy.getPaymentSchedule())
+        <div><p>$vacancy.getPaymentSchedule()</p></div>
+        #end
+        #if($vacancy.getExperience())
+        <div><p>$vacancy.getExperience()</p></div>#end
+        #if($vacancy.getPlace())
+        <div><p>$vacancy.getPlace()</p></div>
+        #end
+    </div>
+    <hr/>
+    #end
+</body>
+</html>

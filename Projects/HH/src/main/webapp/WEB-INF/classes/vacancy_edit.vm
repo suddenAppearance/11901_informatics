@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать вакансию. HH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+<form action="/vacancy/edit" method="POST">
+    <input type="hidden" value="$vacancy.id" name="id">
+    <input type="text" name="name" placeholder="Имя" value="$vacancy.getName()" required/>
+    <input type="text" name="sphere" placeholder="Сфера" value="$vacancy.getSphere()" required/>
+    <input type="text" name="schedule" placeholder="График работы" value="$vacancy.getSchedule()" required/>
+    <input type="text" name="type" placeholder="Тип работы" value="$vacancy.getType()" required/>
+    <input type="text" name="payment_schedule" placeholder="Выдача зарплаты" value="$vacancy.getPaymentSchedule()" required/>
+    <input type="number" name="experience" placeholder="Стаж работы" value="$vacancy.getExperience()" required/>
+    <input type="text" name="place" placeholder="Место работы" value="$vacancy.getPlace()" required/>
+    <input type="text" name="address" placeholder="Адрес места работы" value="$vacancy.getAddress()" required/>
+    <textarea name="requirements" placeholder="Обязанности" required> $vacancy.getRequirements()</textarea>
+    <textarea type="text" name="description" placeholder="Описание" required> $vacancy.getDescription()</textarea>
+    <input type="text" name="tags" placeholder="Теги (через запятую)" value="$tags" required/>
+    <input type="text" name="contact_info" placeholder="Контактная информация" value="$vacancy.getContact_info()" required/>
+    <input type="number" name="salary" placeholder="Заработная плата" value="$vacancy.getSalary()" required/>
+    <input type="submit" value="Сохранить" required/>
+</form>
+</body>
+</html>

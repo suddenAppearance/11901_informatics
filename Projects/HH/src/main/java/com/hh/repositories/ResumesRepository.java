@@ -12,4 +12,6 @@ public interface ResumesRepository extends CrudRepository<Resume> {
     Optional<Resume> findById(Long id);
     void like(Resume resume, User user);
     void unlike(Resume resume, User user);
+    boolean is_liked(Resume resume, User user);
+    List<Resume> liked(User user);
 }

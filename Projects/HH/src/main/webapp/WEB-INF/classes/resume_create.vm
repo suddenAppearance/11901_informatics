@@ -10,110 +10,55 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
     <script>
+        let iter = 1;
         function createWorkplace() {
-            const a = document.getElementById("id_workplace_form")
-            a.innerHTML = `<input name="companyName" id="id_companyName" required/>
-        <input name="started" type="date" id="id_started" required>
-        <input name="finished" type="date" id="id_finished" required>
-        <input name="description" id="id_wp_descr" required>
-        <button onclick="saveWorkplace($('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>`
+            const a = document.getElementById("id_workplaces")
+            a.innerHTML += `<div id="workplace_form">
+        <input name="companyName" id="id_companyName" required/>
+        <input name="started" type="month" id="id_started" required/>
+        <input name="finished" type="month" id="id_finished" required/>
+        <textarea name="description"  id="id_wp_descr" required></textarea>
+        <button onclick="saveWorkplace($('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+        </div>`
         }
-
-        function saveWorkplace(name, started, finished, description) {
-            document.getElementById("id_workplace_form").innerHTML = ""
-            let data = {
-                "companyName": name,
+        function saveWorkplace(companyName, started, finished, description){
+            let a = document.getElementById("workplace_form")
+            let b = document.getElementById("id_workplaces")
+            let data = JSON.stringify({
+                "companyName": companyName,
                 "started": started,
                 "finished": finished,
                 "description": description
-            }
-
-            $.ajax({
-                url: "/workplace/create",
-                data: JSON.stringify(data),
-                type: "POST",
-                success: function (response) {
-                    let d = JSON.parse(response)
-                    addWorkplace(d.id, d.companyName, d.started, d.finished, d.description)
-                }
-
             })
+            b.removeChild(a)
+            b.innerHTML += `
+            <div id="${iter}">
+            <input type="hidden" name="workplaces" value='${data}'/>
+            <i class="fa fa-edit" onclick="edit(${iter})"></i>
+            <div><h3>${companyName}</h3> <h6>${started} - ${finished}</h6><div>
+            <div><p>${description}</p></div>
+            </div>
+            `
+            iter++
+            document.getElementById("id_submit_resume").disabled = false;
+
         }
-
-
-        function addWorkplace(id, name, started, finished, description) {
-            let a = document.getElementById("id_workplaces")
-            a.innerHTML += `<tr id="` + id + `">
-            <td>
-                ` + name + `
-            </td>
-            <td>
-                <input type="hidden" value="` + id + `" name="workplaces_id" id="id_workplaces_id">
-            </td>
-            <td>
-                <a onclick="edit( '` + id + `','` + name + `','` + started.substring(0, 10) + "','" + finished.substring(0, 10) + "','" + description + `')"><i class="fa fa-edit" style="color: blue"></i></a>
-            </td>
-            <td>
-                <a onclick="delete('` + id + `')"><i class="fa fa-minus" style="color:red" > </i></a>
-        </td>
-
-        </tr>`
-        }
-
-        function edit(id, name, started, finished, description) {
+        function edit(id){
             let a = document.getElementById(id)
-            a.innerHTML = `<input name="companyName" value="` + name + `" id="id_companyName" required/>
-        <input name="started" type="date" value="` + started + `" id="id_started" required>
-        <input name="finished" type="date" value="` + finished + `" id="id_finished" required>
-        <input name="description" value="` + description + `" id="id_wp_descr" required>
-        <button onclick="editWorkplace(` + id + `,$('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>`
+            let d = a.childNodes[1].value
+            let data = JSON.parse(d)
+            let b = a.parentElement
+            b.removeChild(a)
+            b.innerHTML = `<div id="workplace_form">
+            <input name="companyName" id="id_companyName" value="${data.companyName}" required/>
+        <input name="started" type="month" id="id_started" value="${data.started}" required/>
+        <input name="finished" type="month" id="id_finished" value="${data.finished}" required/>
+        <textarea name="description"  id="id_wp_descr" required>${data.description}</textarea>
+        <button onclick="saveWorkplace($('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+        </div>`
+
         }
 
-        function editWorkplace(id, name, started, finished, description) {
-            let a = document.getElementById(id)
-            let data = {
-                "id": id,
-                "companyName": name,
-                "started": started,
-                "finished": finished,
-                "description": description
-            }
-
-            $.ajax({
-                url: "/workplace/edit",
-                type: "POST",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    let d = JSON.parse(response)
-                    let a = document.getElementById(id)
-                    a.innerHTML =
-                            `
-            <td>
-                ` + d.companyName + `
-            </td>
-            <td>
-                <i class="fa fa-edit" style="color: blue" onclick="edit( '` + d.id + `','` + d.companyName + `','` + d.started.substring(0, 10) + "','" + d.finished.substring(0, 10) + "','" + d.description + `')"></i>
-            </td>
-            <td>
-                <i class="fa fa-minus" style="color:red" href="delete('` + id + `')"> </i>
-            </td>`
-                }
-            })
-        }
-
-        function deleteWorkplace(id) {
-            let a = document.getElementById(id)
-            a.parentNode.removeChild(a);
-
-            let data = {
-                "id": id
-            }
-
-            $.ajax({
-                url: "/workplace/delete?id=" + id,
-                type: "GET"
-            })
-        }
     </script>
 </head>
 <body>
@@ -125,17 +70,14 @@
     <input name="schedule" id="id_schedule" required/>
     <input name="type" id="id_type" required/>
     <input type="number" name="experience" id="id_experience" required/>
-    <table id="id_workplaces">
-
-    </table>
-    <div id="id_workplace_form">
+    <div id="id_workplaces" class="form-horizontal">
 
     </div>
-    <i class="fa fa-plus" style="color: greenyellow" onclick="createWorkplace()"></i>
+    <i class="fa fa-plus" style="color: greenyellow" onclick="$('id_submit_resume').disabled = true; createWorkplace()"></i>
     <input name="description" id="id_description" required/>
     <input name="contact_info" id="id_contact_info" required/>
     <input name="salary" id="id_salary" type="number" required/>
-    <input type="submit" value="Создать">
+    <input type="submit" id="id_submit_resume" value="Создать">
 </form>
 </body>
 </html>

@@ -14,7 +14,7 @@
 <body>
 $user.getLogin()
 #foreach($resume in $resumes)
-<div>
+<div onclick="window.location.replace('/resume?id=$resume.getId()')">
     #if($resume.getName())
     <div><h1>$resume.getName()</h1><h6>
         #if($resume.getCreated())

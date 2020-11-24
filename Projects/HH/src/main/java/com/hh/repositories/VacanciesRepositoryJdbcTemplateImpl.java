@@ -1,13 +1,13 @@
 package com.hh.repositories;
 
-import com.hh.models.User;
 import com.hh.models.Vacancy;
-import org.intellij.lang.annotations.Language;
+import com.hh.models.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +33,11 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
             .salary(row.getInt("salary"))
             .account(usersRepository.findByLogin(row.getString("account")).orElse(null)).build();
 
-    public VacanciesRepositoryJdbcTemplateImpl(DataSource dataSource, UsersRepository usersRepository){
+    public VacanciesRepositoryJdbcTemplateImpl(DataSource dataSource, UsersRepository usersRepository) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         this.usersRepository = usersRepository;
     }
+
     @Override
     public void save(Vacancy entity) {
         //language=sql
@@ -115,8 +116,7 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
         String sql_find_by_id = "select * from vacancy where id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql_find_by_id, rowMapper, id));
-        }
-        catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -132,5 +132,25 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
     public void unlike(Vacancy vacancy, User user) {
         //language=sql
         String sql_unlike = "delete from favorite_vacancies where vacancy = ? and account = ?";
+        jdbcTemplate.update(sql_unlike, vacancy.getId(), user.getLogin());
+    }
+
+    public boolean is_liked(Vacancy vacancy, User user) {
+        //language=sql
+        String sql_is_liked = "select count(*) from favorite_vacancies where vacancy = ? and account = ?";
+
+        return jdbcTemplate.queryForObject(sql_is_liked, Long.class, vacancy.getId(), user.getLogin()) >= 1;
+    }
+
+    public List<Vacancy> liked(User user){
+        List<Vacancy> list = new ArrayList<>();
+        //language=sql
+        String sql_liked = "select vacancy from favorite_vacancies where account = ?";
+        List<Long> listOfVacancyIds = jdbcTemplate.queryForList(sql_liked, Long.class, user.getLogin());
+        for (Long id: listOfVacancyIds
+        ) {
+            list.add(findById(id).orElse(null));
+        }
+        return list;
     }
 }

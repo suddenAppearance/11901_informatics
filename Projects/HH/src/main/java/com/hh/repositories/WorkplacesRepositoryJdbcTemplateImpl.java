@@ -56,16 +56,16 @@ public class WorkplacesRepositoryJdbcTemplateImpl implements WorkplacesRepositor
         String sql_get_id = "select nextval('workplace_id_seq')";
         Long id = jdbcTemplate.queryForObject(sql_get_id, Long.class);
         jdbcTemplate.update(sql_save, entity.getCompanyName(), entity.getStarted(), entity.getFinished(), entity.getDescription(),
-                id, entity.getResume());
+                id, entity.getResume().getId());
         return id;
     }
 
     @Override
     public void update(Workplace entity) {
         //language=sql
-        String sql_update = "update workplace set company_name = ?, started = ?, finished = ?, description = ?, resume = ? where id = ?;";
+        String sql_update = "update workplace set company_name = ?, started = ?, finished = ?, description = ? where id = ?;";
         jdbcTemplate.update(sql_update, entity.getCompanyName(), entity.getStarted(), entity.getFinished(),
-                entity.getDescription(),entity.getResume().getId(), entity.getId());
+                entity.getDescription(), entity.getId());
     }
 
     @Override

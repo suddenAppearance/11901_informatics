@@ -11,4 +11,6 @@ public interface VacanciesRepository extends CrudRepository<Vacancy> {
     Optional<Vacancy> findById(Long id);
     void like(Vacancy vacancy, User user);
     void unlike(Vacancy vacancy, User user);
+    boolean is_liked(Vacancy vacancy, User user);
+    List<Vacancy> liked(User user);
 }

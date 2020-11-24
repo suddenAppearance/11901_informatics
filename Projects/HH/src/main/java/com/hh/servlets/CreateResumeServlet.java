@@ -1,6 +1,8 @@
 package com.hh.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hh.dto.UserDto;
+import com.hh.dto.WorkplaceForm;
 import com.hh.models.Resume;
 import com.hh.models.User;
 import com.hh.models.Workplace;
@@ -29,7 +31,7 @@ import java.util.Date;
 public class CreateResumeServlet extends HttpServlet {
     ResumesService resumesService;
     WorkplacesService workplacesService;
-
+    ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
@@ -63,15 +65,14 @@ public class CreateResumeServlet extends HttpServlet {
                 .build();
         Long identifier = resumesService.save(resume);
         resume.setId(identifier);
-        String[] r = req.getParameterValues("workplaces_id");
+        String[] r = req.getParameterValues("workplaces");
         if (r != null) {
-            for (String id : r
+            for (String workplaceJson : r
             ) {
-                Long a = Long.parseLong(id);
-                Workplace workplace = workplacesService.findById(a).orElse(null);
-                if (workplace == null) throw new IllegalArgumentException("No such workplace");
+                WorkplaceForm workplaceForm = objectMapper.readValue(workplaceJson, WorkplaceForm.class);
+                Workplace workplace = Workplace.from(workplaceForm);
                 workplace.setResume(resume);
-                workplacesService.update(workplace);
+                workplacesService.save(workplace);
             }
         }
 

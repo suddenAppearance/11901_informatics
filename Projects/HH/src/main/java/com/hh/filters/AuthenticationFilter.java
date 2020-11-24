@@ -29,16 +29,20 @@ public class AuthenticationFilter implements Filter {
         // существует ли сессия вообще?
         boolean sessionExists = session != null;
         // идет ли запрос на страницу входа или регистрации?
-        boolean isRequestOnOpenPage = request.getRequestURI().equals("/login") ||
-                request.getRequestURI().equals("/signUp");
+        String requestUri = request.getRequestURI();
+        boolean isRequestOnOpenPage = requestUri.equals("/login") ||
+                requestUri.equals("/signUp") || requestUri.equals("/vacancies") || requestUri.equals("/resumes")
+                || requestUri.equals("/vacancy") || requestUri.equals("/resume");
         // если сессия есть
+        boolean isRequestOnPageWithNoNeedToAuthorize = requestUri.equals("/vacancies") || requestUri.equals("/resumes")
+                || requestUri.equals("/vacancy") || requestUri.equals("/resume") || requestUri.equals("/resume/search") || requestUri.equals("/vacancies/search");
         if (sessionExists) {
             // проверим, есть ли атрибует user?
             isAuthenticated = session.getAttribute("user") != null;
         }
 
         // если авторизован и запрашивает не открытую страницу или если не авторизован и запрашивает открытую
-        if (isAuthenticated && !isRequestOnOpenPage || !isAuthenticated && isRequestOnOpenPage) {
+        if (isAuthenticated && !isRequestOnOpenPage || !isAuthenticated && isRequestOnOpenPage || isRequestOnPageWithNoNeedToAuthorize) {
             // отдаем ему то, что он хочет
             filterChain.doFilter(request, response);
         } else if (isAuthenticated) {

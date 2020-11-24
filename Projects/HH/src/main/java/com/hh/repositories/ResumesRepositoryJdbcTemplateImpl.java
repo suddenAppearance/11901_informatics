@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,26 @@ public class ResumesRepositoryJdbcTemplateImpl implements ResumesRepository {
         //language=sql
         String sql_unlike = "delete from favorite_resumes where resume = ? and account = ?";
         jdbcTemplate.update(sql_unlike, resume.getId(), user.getLogin());
+    }
+
+    @Override
+    public boolean is_liked(Resume resume, User user) {
+        //language=sql
+        String sql_is_liked = "select count(*) from favorite_resumes where resume = ? and account = ?";
+        return jdbcTemplate.queryForObject(sql_is_liked, Long.class, resume.getId(), user.getLogin()) >= 1;
+    }
+
+    @Override
+    public List<Resume> liked(User user) {
+        List<Resume> list = new ArrayList<>();
+        //language=sql
+        String sql_liked = "select resume from favorite_resumes where account = ?";
+        List<Long> listOfResumeIds = jdbcTemplate.queryForList(sql_liked, Long.class, user.getLogin());
+        for (Long id : listOfResumeIds
+        ) {
+            list.add(findById(id).orElse(null));
+        }
+        return list;
     }
 
     @Override

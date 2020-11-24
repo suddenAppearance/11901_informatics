@@ -17,5 +17,7 @@
 <a href="/profile/resumes">Мои резюме</a>
 <a href="/resume/create">Создать резюме</a>
 <a href="/vacancy/create">Создать вакансию</a>
+<a href="/profile/vacancies/saved">Избранное вакансий</a>
+<a href="profile/resumes/saved">Избранное резюме</a>
 </body>
 </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои вакансии. HH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <script>
+        function like(){
+            $.ajax({
+                type: "post",
+                url: "/resume/like",
+                data: {
+                    "id": $resume.getId()
+                },
+                success: function (){
+                   let a = document.getElementById("like")
+                    a.style.color = "red";
+                    a.onclick = unlike
+                }
+            })
+        }
+        function unlike(){
+            $.ajax({
+                type: "post",
+                url: "/resume/unlike",
+                data: {
+                    "id": $resume.getId()
+                },
+                success: function (){
+                    let a = document.getElementById("like")
+                    a.style.color = "grey";
+                    a.onclick = like
+                }
+            })
+        }
+    </script>
+
+</head>
+<body>
+    #if($user)
+        $user.getLogin()
+    #end
+    <div>
+        #if($resume.getName())
+            <div><h1>$resume.getName()</h1><h6>
+                #if($resume.getCreated())
+        $resume.getCreated()
+        #end</h6></div>
+        #end
+        #if($resume.getSphere())
+            <div><p>$resume.getSphere()</p></div>
+        #end
+        #if($resume.getSchedule())
+            <div><p>$resume.getSchedule()</p></div>
+        #end
+        #if($resume.getType())
+            <div><p>$resume.getType()</p></div>
+        #end
+        #if($resume.getPaymentSchedule())
+            <div><p>$resume.getPaymentSchedule()</p></div>
+        #end
+        #if($resume.getExperience())
+            <div><p>$resume.getExperience()</p></div>#end
+    </div>
+    <hr/>
+    #if($user)
+    <i class="fa fa-heart-o" id="like" style="color: #if($is_liked) red #else grey #end" #if($is_liked)onclick="unlike()"#else onclick="like()"#end></i>
+    #end
+</body>
+</html>

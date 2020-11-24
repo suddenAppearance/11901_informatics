@@ -40,4 +40,20 @@ public class VacanciesService {
     public void update(Vacancy vacancy){
         vacanciesRepository.update(vacancy);
     }
+
+    public List<Vacancy> allVacancies(){
+        return vacanciesRepository.findAll();
+    }
+    public void like(Vacancy resume, User user){
+        vacanciesRepository.like(resume, user);
+    }
+    public void unlike(Vacancy resume, User user){
+        vacanciesRepository.unlike(resume, user);
+    }
+    public boolean is_liked(Vacancy vacancy, User user){
+        return vacanciesRepository.is_liked(vacancy, user);
+    }
+    public List<Vacancy> saved(User user){
+        return vacanciesRepository.liked(user);
+    }
 }

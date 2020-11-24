@@ -10,141 +10,114 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
     <script>
+        let iter = 1;
         function createWorkplace() {
-            const a = document.getElementById("id_workplace_form")
-            a.innerHTML = `<input name="companyName" id="id_companyName" required/>
-        <input name="started" type="date" id="id_started" required>
-        <input name="finished" type="date" id="id_finished" required>
-        <input name="description" id="id_wp_descr" required>
-        <button onclick="saveWorkplace($('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>`
+            const a = document.getElementById("id_workplaces")
+            a.innerHTML += `<div id="workplace_form">
+        <input name="companyName" id="id_companyName" required/>
+        <input name="started" type="month" id="id_started" required/>
+        <input name="finished" type="month" id="id_finished" required/>
+        <textarea name="description"  id="id_wp_descr" required></textarea>
+        <button onclick="saveWorkplace(null, $('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+        </div>`
         }
-
-        function saveWorkplace(name, started, finished, description) {
-            document.getElementById("id_workplace_form").innerHTML = ""
-            let data = {
-                "companyName": name,
-                "started": started,
-                "finished": finished,
-                "description": description,
-                "resume": document.getElementById("resume_id").value
-            }
-
-            $.ajax({
-                url: "/workplace/create",
-                data: JSON.stringify(data),
-                type: "POST",
-                success: function (response) {
-                    let d = JSON.parse(response)
-                    addWorkplace(d.id, d.companyName, d.started, d.finished, d.description)
-                }
-
-            })
-        }
-
-
-        function addWorkplace(id, name, started, finished, description) {
-            let a = document.getElementById("id_workplaces")
-            a.innerHTML += `<tr id="` + id + `">
-            <td>
-                ` + name + `
-            </td>
-            <td>
-                <input type="hidden" value="` + id + `" name="workplaces_id" id="id_workplaces_id">
-            </td>
-            <td>
-                <a onclick="edit( '` + id + `','` + name + `','` + started.substring(0, 10) + "','" + finished.substring(0, 10) + "','" + description + `')"><i class="fa fa-edit" style="color: blue"></i></a>
-            </td>
-            <td>
-                <a onclick="delete('` + id + `')"><i class="fa fa-minus" style="color:red" > </i></a>
-        </td>
-
-        </tr>`
-        }
-
-        function edit(id, name, started, finished, description) {
-            let a = document.getElementById(id)
-            a.innerHTML = `<input name="companyName" value="` + name + `" id="id_companyName" required/>
-        <input name="started" type="date" value="` + started + `" id="id_started" required>
-        <input name="finished" type="date" value="` + finished + `" id="id_finished" required>
-        <input name="description" value="` + description + `" id="id_wp_descr" required>
-        <button onclick="editWorkplace(` + id + `,$('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>`
-        }
-
-        function editWorkplace(id, name, started, finished, description) {
-            let a = document.getElementById(id)
-            let data = {
+        function saveWorkplace(id, companyName, started, finished, description){
+            let a = document.getElementById("workplace_form")
+            let b = document.getElementById("id_workplaces")
+            let data = JSON.stringify({
                 "id": id,
-                "companyName": name,
+                "companyName": companyName,
                 "started": started,
                 "finished": finished,
-                "description": description,
-                "resume": document.getElementById("resume_id").value
-            }
-
-            $.ajax({
-                url: "/workplace/edit",
-                type: "POST",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    let d = JSON.parse(response)
-                    let a = document.getElementById(id)
-                    a.innerHTML =
-                            `
-            <td>
-                ` + d.companyName + `
-            </td>
-            <td>
-                <i class="fa fa-edit" style="color: blue" onclick="edit( '` + d.id + `','` + d.companyName + `','` + d.started.substring(0, 10) + "','" + d.finished.substring(0, 10) + "','" + d.description + `')"></i>
-            </td>
-            <td>
-                <i class="fa fa-minus" style="color:red" href="delete('` + id + `')"> </i>
-            </td>`
-                }
+                "description": description
             })
+            b.removeChild(a)
+            b.innerHTML += `
+            <div id="new_${iter}">
+            <input type="hidden" name="workplaces" value='${data}'/>
+            <i class="fa fa-edit" onclick="edit('new_${iter}')"></i>
+            <i class="fa fa-minus" onclick="deleteWorkplace('new_${iter}')"></i>
+            <div><h3>${companyName}</h3> <h6>${started} - ${finished}</h6><div>
+            <div><p>${description}</p></div>
+            </div>
+            `
+            iter++
+            document.getElementById("id_submit_resume").disabled = false;
+
         }
-
-        function deleteWorkplace(id) {
+        function edit(id){
             let a = document.getElementById(id)
-            a.parentNode.removeChild(a);
+            let d = a.childNodes[1].value
+            let data = JSON.parse(d)
+            let b = a.parentElement
+            b.removeChild(a)
+            b.innerHTML += `<div id="workplace_form">
+            <input name="companyName" id="id_companyName" value="${data.companyName}" required/>
+        <input name="started" type="month" id="id_started" value="${data.started}" required/>
+        <input name="finished" type="month" id="id_finished" value="${data.finished}" required/>
+        <textarea name="description"  id="id_wp_descr" required>${data.description}</textarea>
+        <button onclick="saveWorkplace(null, $('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+        </div>`
 
+        }
+        function editExisted(id){
+            let a = document.getElementById(id)
+            let d = a.childNodes[1].value
+            let data = JSON.parse(d)
+            let b = a.parentElement
+            b.removeChild(a)
+            b.innerHTML += `<div id="workplace_form">
+            <input name="companyName" id="id_companyName" value="${data.companyName}" required/>
+        <input name="started" type="month" id="id_started" value="${data.started}" required/>
+        <input name="finished" type="month" id="id_finished" value="${data.finished}" required/>
+        <textarea name="description"  id="id_wp_descr" required>${data.description}</textarea>
+        <button onclick="saveWorkplace(id,$('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+        </div>`
+        }
+        function deleteWorkplace(id){
+            if (id.toString().substring(0, 3) === "new"){
+                document.getElementById(id).remove()
+                return;
+            }
             let data = {
                 "id": id
             }
 
             $.ajax({
-                url: "/workplace/delete?id=" + id,
-                type: "GET"
-            })
+                type: "post",
+                url: "/workplace/delete",
+                data: JSON.stringify(data),
+                success: document.getElementById(id).remove(),
+                dataType: "json",
+                contentType: "application/json"
+            });
         }
+
     </script>
 </head>
 <body>
-<input type="hidden" id="resume_id" value="$resume.getId()">
+
 <form action="/resume/edit" method="POST">
+    <input type="hidden" name="resume_id" id="resume_id" value="$resume.getId()">
     <input name="name" id="id_name" required value="$resume.getName()"/>
-    <input type="checkbox" name="readyToBusinessTrip" required #if ($resume.getReadyToBusinessTrip()) checked #end/>
-        <input type="checkbox" name="moving" required #if($resume.getMoving()) checked #end/>
+    <input type="checkbox" name="readyToBusinessTrip" #if ($resume.getReadyToBusinessTrip()) checked #end/>
+        <input type="checkbox" name="moving" #if($resume.getMoving()) checked #end/>
     <input name="sphere" id="id_sphere" required value="$resume.getSphere()"/>
     <input name="schedule" id="id_schedule" required value="$resume.getSchedule()"/>
     <input name="type" id="id_type" required value="$resume.getType()"/>
     <input type="number" name="experience" id="id_experience" required value="$resume.getExperience()"/>
-    <table id="id_workplaces">
-        #foreach($workplace in $workplaces)
-            <tr id="${workplace.getId()}">
-            <td>
-                $workplace.companyName
-            </td>
-            <td>
-                <i class="fa fa-edit" style="color: blue"
-                   onclick="edit('$workplace.getId()', '$workplace.getCompanyName()', '$df.format($workplace.getStarted())', '$df.format($workplace.getFinished())', '$workplace.getDescription()' )"></i>
-            </td>
-            <td>
-                <i class="fa fa-minus" style="color:red" href="delete('` + id + `')"> </i>
-            </td>
-            </tr>
+    <div id="id_workplaces">
+        #foreach($data in $workplaces)
+        <div id="$data.id">
+            <input type="hidden" name="workplaces" value='$objectMapper.writeValueAsString($data)'/>
+            <i class="fa fa-edit" onclick="editExisted($data.id)"></i>
+            <i class="fa fa-minus" style="color: red" onclick="deleteWorkplace($data.id)"></i>
+        <div><h3>$data.companyName</h3> <h6>$data.started - $data.finished</h6></div>
+            <div><p>$data.description</p></div>
+        </div>
         #end
-    </table>
-    <div id="id_workplace_form">
+    </div>
+    <div style="display: none" id="id_remove_workplaces">
 
     </div>
     <i class="fa fa-plus" style="color: greenyellow" onclick="createWorkplace()"></i>

@@ -14,8 +14,9 @@ import java.util.Date;
 public class WorkplaceForm {
     Long id;
     String companyName;
-    Date started;
-    Date finished;
+    String started;
+    String finished;
     String description;
     Long resume;
+
 }

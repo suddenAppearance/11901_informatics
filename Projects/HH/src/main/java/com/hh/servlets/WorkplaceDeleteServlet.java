@@ -1,9 +1,13 @@
 package com.hh.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Workplace;
 import com.hh.services.WorkplacesService;
 
+import javax.json.Json;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,9 +28,9 @@ public class WorkplaceDeleteServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.parseLong(req.getParameter("id"));
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Workplace workplace = new ObjectMapper().readValue(req.getReader(), Workplace.class);
 
-        workplacesService.delete(id);
+        workplacesService.delete(workplace.getId());
     }
 }

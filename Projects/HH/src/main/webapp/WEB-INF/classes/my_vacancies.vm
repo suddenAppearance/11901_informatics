@@ -14,7 +14,7 @@
 <body>
     $user.getLogin()
     #foreach($vacancy in $vacancies)
-    <div>
+    <div onclick="window.location.replace('/vacancy?id=$vacancy.getId()')">
         #if($vacancy.getName())
             <div><h1>$vacancy.getName()</h1><h6>
                 #if($vacancy.getCreationDate())

@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Resume {
+public class    Resume {
     Long id;
     String name;
     Date created;
@@ -19,7 +19,6 @@ public class Resume {
     String sphere;
     String schedule;
     String type;
-    Integer experience;
     String description;
     Integer salary;
     String contact_info;

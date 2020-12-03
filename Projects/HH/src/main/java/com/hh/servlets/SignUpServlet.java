@@ -54,6 +54,7 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         signUpService.signUp(
                 UserForm.builder().
                         login(req.getParameter("username"))

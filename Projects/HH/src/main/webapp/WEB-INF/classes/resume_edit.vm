@@ -2,80 +2,26 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Профиль. HH</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Редактирование $resume.getName(). HH</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.1/examples/sticky-footer-navbar/sticky-footer-navbar.css"
+          rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
+            integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
+            crossorigin="anonymous"></script>
     <script>
-        let iter = 1;
-        function createWorkplace() {
-            const a = document.getElementById("id_workplaces")
-            a.innerHTML += `<div id="workplace_form">
-        <input name="companyName" id="id_companyName" required/>
-        <input name="started" type="month" id="id_started" required/>
-        <input name="finished" type="month" id="id_finished" required/>
-        <textarea name="description"  id="id_wp_descr" required></textarea>
-        <button onclick="saveWorkplace(null, $('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
-        </div>`
-        }
-        function saveWorkplace(id, companyName, started, finished, description){
-            let a = document.getElementById("workplace_form")
-            let b = document.getElementById("id_workplaces")
-            let data = JSON.stringify({
-                "id": id,
-                "companyName": companyName,
-                "started": started,
-                "finished": finished,
-                "description": description
-            })
-            b.removeChild(a)
-            b.innerHTML += `
-            <div id="new_${iter}">
-            <input type="hidden" name="workplaces" value='${data}'/>
-            <i class="fa fa-edit" onclick="edit('new_${iter}')"></i>
-            <i class="fa fa-minus" onclick="deleteWorkplace('new_${iter}')"></i>
-            <div><h3>${companyName}</h3> <h6>${started} - ${finished}</h6><div>
-            <div><p>${description}</p></div>
-            </div>
-            `
-            iter++
-            document.getElementById("id_submit_resume").disabled = false;
-
-        }
-        function edit(id){
-            let a = document.getElementById(id)
-            let d = a.childNodes[1].value
-            let data = JSON.parse(d)
-            let b = a.parentElement
-            b.removeChild(a)
-            b.innerHTML += `<div id="workplace_form">
-            <input name="companyName" id="id_companyName" value="${data.companyName}" required/>
-        <input name="started" type="month" id="id_started" value="${data.started}" required/>
-        <input name="finished" type="month" id="id_finished" value="${data.finished}" required/>
-        <textarea name="description"  id="id_wp_descr" required>${data.description}</textarea>
-        <button onclick="saveWorkplace(null, $('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
-        </div>`
-
-        }
-        function editExisted(id){
-            let a = document.getElementById(id)
-            let d = a.childNodes[1].value
-            let data = JSON.parse(d)
-            let b = a.parentElement
-            b.removeChild(a)
-            b.innerHTML += `<div id="workplace_form">
-            <input name="companyName" id="id_companyName" value="${data.companyName}" required/>
-        <input name="started" type="month" id="id_started" value="${data.started}" required/>
-        <input name="finished" type="month" id="id_finished" value="${data.finished}" required/>
-        <textarea name="description"  id="id_wp_descr" required>${data.description}</textarea>
-        <button onclick="saveWorkplace(id,$('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
-        </div>`
-        }
-        function deleteWorkplace(id){
-            if (id.toString().substring(0, 3) === "new"){
+        function deleteWorkplace(id) {
+            if (id.toString().substring(0, 3) === "new") {
                 document.getElementById(id).remove()
                 return;
             }
@@ -93,38 +39,238 @@
             });
         }
 
+        let iter = 1;
+
+        function createWorkplace() {
+            const a = document.getElementById("id_workplaces")
+            a.innerHTML += `<div id="workplace_form"><div class="md-form"><label for="id_companyName">Наименование компании</label><input name="companyName" type="text" class="form-control" id="id_companyName" value=""/></div>
+            <div class="md-form w"><input name="started" class="month_pick" type="month" id="id_started" value=""/></div>
+            <div class="md-form"><input name="finished" class="month_pick" type="month" id="id_finished" value=""/></div>
+            <div class="md-form md-textarea md-outline"><label for="id_wp_descr">Описание</label><textarea class="form-control" name="description" id="id_wp_descr"></textarea>
+                <button class="btn btn-success" onclick="saveWorkplace(null,$('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+            </div></div>`
+        }
+
+        function saveWorkplace(id, companyName, started, finished, description) {
+            let a = document.getElementById("workplace_form")
+            let b = document.getElementById("id_workplaces")
+            let data = JSON.stringify({
+                "id": id,
+                "companyName": companyName,
+                "started": started,
+                "finished": finished,
+                "description": description
+            })
+            if (id == null) {
+                id = "new_" + iter.toString()
+            }
+            b.removeChild(a)
+            b.innerHTML += `
+            <div id="${id}">
+                <input type="hidden" name="workplaces" value='${data}'/>
+
+                <div class="row col">
+                    <h3>${companyName}</h3>
+                    <h6 style="color: grey" class="mt-auto">${started} - ${finished}</h6>
+                    <i class="fa fa-edit" style="color: greenyellow" onclick="edit(new_${iter})"></i>
+                    <i class="fa fa-minus" style="color: red" onclick="new_${iter}"></i>
+                </div>
+                <div class="row col"><p>${description}</p></div>
+            </div>
+            `
+            iter++
+            document.getElementById("id_submit_resume").disabled = false;
+
+        }
+
+        function edit(id) {
+            let a = document.getElementById(id)
+            let d = a.childNodes[1].value
+            let data = JSON.parse(d)
+            let b = a.parentElement
+            b.removeChild(a)
+            if (id.toString().substring(0, 3) === "new") {
+                id = null;
+            }
+            b.innerHTML += `<div id="workplace_form"><div class="md-form"><label class="active" for="id_companyName">Наименование компании</label><input name="companyName" type="text" class="form-control" id="id_companyName" value="${data.companyName}"/></div>
+            <div class="md-form w"><input name="started" class="month_pick" type="month" id="id_started" value="${data.started}"/></div>
+            <div class="md-form"><input name="finished" class="month_pick" type="month" id="id_finished" value="${data.finished}"/></div>
+            <div class="md-form md-textarea md-outline"><label class="active" for="id_wp_descr">Описание</label><textarea class="form-control" name="description" id="id_wp_descr">${data.description}</textarea>
+                <button class="btn btn-success" onclick="saveWorkplace(${id}, $('#id_companyName').val(), $('#id_started').val(), $('#id_finished').val(), $('#id_wp_descr').val())">Создать</button>
+            </div></div>`
+
+        }
+
+        function onLoad() {
+            // dropdown init
+            document.getElementById('navbarDropdown').click();
+            document.getElementById('navbarDropdown').blur();
+        }
+
+        function openInNewTab(url) {
+            let win = window.open(url, '_blank');
+            win.focus();
+        }
     </script>
+    <style>
+        body {
+            background: url(https://avatanplus.com/files/resources/original/577c80ded65a0155be57669e.jpg)
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+            z-index: 10;
+        }
+
+        .month_pick {
+            color: grey;
+        }
+
+        .month_pick:focus {
+            color: blue;
+        }
+    </style>
 </head>
-<body>
+<body onload="onLoad()">
+    #*<form action="/resume/create" method="POST">
+        <input name="name" id="id_name"/></div></
+        <input type="checkbox" name="readyToBusinessTrip" value="true"/></div></
+        <input type="checkbox" name="moving" value="true"/></div></
+        <input name="sphere" id="id_sphere"/></div></
+        <input name="schedule" id="id_schedule"/></
+        <input name="type" id="id_type"/></
+        <input type="number" name="experience" id="id_experience"/></
+        <div id="id_workplaces" class="form-horizontal">
 
-<form action="/resume/edit" method="POST">
-    <input type="hidden" name="resume_id" id="resume_id" value="$resume.getId()">
-    <input name="name" id="id_name" required value="$resume.getName()"/>
-    <input type="checkbox" name="readyToBusinessTrip" #if ($resume.getReadyToBusinessTrip()) checked #end/>
-        <input type="checkbox" name="moving" #if($resume.getMoving()) checked #end/>
-    <input name="sphere" id="id_sphere" required value="$resume.getSphere()"/>
-    <input name="schedule" id="id_schedule" required value="$resume.getSchedule()"/>
-    <input name="type" id="id_type" required value="$resume.getType()"/>
-    <input type="number" name="experience" id="id_experience" required value="$resume.getExperience()"/>
-    <div id="id_workplaces">
-        #foreach($data in $workplaces)
-        <div id="$data.id">
-            <input type="hidden" name="workplaces" value='$objectMapper.writeValueAsString($data)'/>
-            <i class="fa fa-edit" onclick="editExisted($data.id)"></i>
-            <i class="fa fa-minus" style="color: red" onclick="deleteWorkplace($data.id)"></i>
-        <div><h3>$data.companyName</h3> <h6>$data.started - $data.finished</h6></div>
-            <div><p>$data.description</p></div>
         </div>
-        #end
-    </div>
-    <div style="display: none" id="id_remove_workplaces">
+        <i class="fa fa-plus" style="color: greenyellow" onclick="$('id_submit_resume').disabled = true; createWorkplace()"></i>
+        <input name="description" id="id_description"/></
+        <input name="contact_info" id="id_contact_info"/></
+        <input name="salary" id="id_salary" type="number"/></
+        <input type="submit" id="id_submit_resume" value="Создать">
+    </form>*#
+<nav class="navbar sticky-top navbar-light bg-light navbar-expand-md">
+    <a href="/profile" class="navbar-brand">HeadHunters</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown prefix">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    $user.getLogin()
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a style="text-decoration: underline" href="/profile"
+                       class="dropdown-item">$user.getLogin()</a>
+                    <div class="dropdown-divider"></div>
+                    <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
+                </div>
 
+            </li>
+        </ul>
     </div>
-    <i class="fa fa-plus" style="color: greenyellow" onclick="createWorkplace()"></i>
-    <input name="description" id="id_description" required value="$resume.getDescription()"/>
-    <input name="contact_info" id="id_contact_info" required value="$resume.getContact_info()"/>
-    <input name="salary" id="id_salary" type="number" required value="$resume.getSalary()"/>
-    <input type="submit" value="Сохранить">
-</form>
+</nav>
+<div class="container-fluid" style="margin-top: 1.2em">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Создание резюме
+                </div>
+                <div class="card-body">
+                    <form action="/resume/edit" method="POST">
+                        <input type="hidden" name="resume_id" value="$resume.getId()">
+                        <div class="md-form">
+                            <label class for="id_name">Название вакансии</label>
+                            <input class="form-control" type="text" name="name" id="id_name" value="$resume.getName()"
+                                   required/></div>
+                        <div class="col form-group">
+
+                            <input class="form-check-input" type="checkbox" name="readyToBusinessTrip"
+                                   id="id_readyToBusinessTrip" value="true" #if($resume.getReadyToBusinessTrip())
+                                   checked
+                            #end/>
+                            <label class="form-check-label" for="id_readyToBusinessTrip">Готовность к
+                                командировкам</label>
+                        </div>
+                        <div class="col form-group">
+                            <input class="form-check-input" type="checkbox" name="moving" #if($resume.getMoving())
+                                   checked
+                            #end value="true" id="id_moving"/>
+                            <label class="form-check-label" for="id_moving">Готовность к переезду</label>
+                        </div>
+                        <div class="md-form">
+                            <i></i>
+                            <label class for="id_sphere">Сфера деятельности</label>
+                            <input class="form-control" name="sphere" type="text" value="$resume.getSphere()"
+                                   id="id_sphere"/></div>
+                        <div class="md-form">
+                            <i></i>
+                            <label class for="id_schedule">График работы</label>
+                            <input class="form-control" name="schedule" type="text" value="$resume.getSchedule()"
+                                   id="id_schedule"/></div>
+                        <div class="md-form">
+                            <i></i>
+                            <label class for="id_type">Тип работы</label>
+                            <input class="form-control" type="text" name="type" value="$resume.getType()" id="id_type"/>
+                        </div>
+                        <label class for="id_workplaces">
+                            Опыт работы
+                        </label>
+                        <div id="id_workplaces" class="row col">
+                            #foreach($workplace in $workplaces)
+                                <div id="$workplace.getId()">
+                                    <input type="hidden" name="workplaces" value='${workplace.getData()}'/>
+
+                                    <div class="row col">
+                                        <h3>${workplace.getCompanyName()}</h3>
+                                        <h6 style="color: grey" class="mt-auto">${workplace.getStarted()}
+                                            - ${workplace.getFinished()}</h6>
+                                        <i class="fa fa-edit" style="color: greenyellow"
+                                           onclick="edit($workplace.getId()"></i>
+                                        <i class="fa fa-minus" style="color: red"
+                                           onclick="deleteWorkplace(${$workplace.getId})"></i>
+                                    </div>
+                                    <div class="row col"><p>${workplace.getDescription()}</p></div>
+                                </div>
+                                `
+                            #end
+                        </div>
+                        <i class="fa fa-plus" style="color: greenyellow"
+                           onclick="$('#id_submit_resume').disabled = true; createWorkplace()"></i>
+                        <div class="md-form md-textarea md-outline">
+                            <i></i>
+                            <label class for="id_description"> Описание</label>
+                            <textarea class="form-control" name="description" id="id_description">$resume.getDescription()</textarea></div>
+                        <div class="md-form">
+                            <i></i>
+                            <label class for="id_contact_info">Контактная информация</label>
+                            <input class="form-control" type="text" name="contact_info" id="id_contact_info" value="$resume.getContact_info()"/>
+                        </div>
+                        <div class="md-form">
+                            <i></i>
+                            <label class for="id_salary">Зароботная плата</label>
+                            <input class="form-control" name="salary" id="id_salary" value="$resume.getSalary()" type="number"/></div>
+
+                        <input type="submit" class="btn btn-outline-primary" id="id_submit_resume"
+                               value="Сохранить"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer text-center">
+    <i class="fa fa-copyright"></i> Copyright:<a onclick="openInNewTab('https://vk.com/sudden_appearance')">@sudden_appearance</a>
+</footer>
 </body>
 </html>

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet("/vacancy/edit")
 public class EditVacancyServlet extends HttpServlet {
@@ -31,6 +32,7 @@ public class EditVacancyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
         UserDto userDto = (UserDto) req.getSession().getAttribute("user");
         Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
@@ -47,17 +49,12 @@ public class EditVacancyServlet extends HttpServlet {
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("user", userDto);
         velocityContext.put("vacancy", vacancy);
-        StringBuilder tags = new StringBuilder();
-        for (String tag : vacancy.getTags()
-        ) {
-            tags.append(tag).append(", ");
-        }
-        velocityContext.put("tags", tags.substring(0, tags.length() - 2));
         Velocity.mergeTemplate("vacancy_edit.vm", SkeletonListener.ENCODING, velocityContext, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         VacancyForm vacancyForm = VacancyForm.builder()
                 .id(Long.parseLong(req.getParameter("id")))
                 .name(req.getParameter("name"))
@@ -65,15 +62,15 @@ public class EditVacancyServlet extends HttpServlet {
                 .schedule(req.getParameter("schedule"))
                 .contact_info(req.getParameter("contact_info"))
                 .description(req.getParameter("description"))
-                .experience(Integer.parseInt(req.getParameter("experience")))
+                .experience(Integer.parseInt(Optional.ofNullable(req.getParameter("experience")).orElse("0")))
                 .paymentSchedule(req.getParameter("payment_schedule"))
                 .place(req.getParameter("place"))
                 .requirements(req.getParameter("requirements"))
-                .salary(Integer.parseInt(req.getParameter("salary")))
+                .salary(Integer.parseInt(Optional.ofNullable(req.getParameter("salary")).orElse("0")))
                 .sphere(req.getParameter("sphere"))
-                .tags(req.getParameterValues("tags"))
                 .type(req.getParameter("type"))
                 .build();
         vacanciesService.update(Vacancy.from(vacancyForm));
+        resp.sendRedirect("/profile/vacancies");
     }
 }

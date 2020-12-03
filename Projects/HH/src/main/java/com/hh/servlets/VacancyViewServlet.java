@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @WebServlet("/vacancy")
 public class VacancyViewServlet extends HttpServlet {
@@ -28,6 +29,7 @@ public class VacancyViewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
         Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
         if (vacancy == null) {
@@ -36,6 +38,8 @@ public class VacancyViewServlet extends HttpServlet {
         }
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("vacancy", vacancy);
+        SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
+        velocityContext.put("creation_date", df.format(vacancy.getCreationDate()));
         if (req.getSession().getAttribute("user") != null){
             velocityContext.put("is_liked", vacanciesService.is_liked(vacancy, User.from((UserDto) req.getSession().getAttribute("user"))));
             velocityContext.put("user", req.getSession().getAttribute("user"));

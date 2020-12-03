@@ -25,7 +25,6 @@ public class Vacancy {
     String address;
     String requirements;
     String description;
-    String[] tags;
     Integer salary;
     String contact_info;
     User account;
@@ -43,7 +42,6 @@ public class Vacancy {
                 .address(vacancyForm.getAddress())
                 .requirements(vacancyForm.getRequirements())
                 .description(vacancyForm.getDescription())
-                .tags(vacancyForm.getTags())
                 .contact_info(vacancyForm.getContact_info())
                 .salary(vacancyForm.getSalary()).build();
     }

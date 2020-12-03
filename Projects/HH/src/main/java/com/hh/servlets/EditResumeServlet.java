@@ -47,6 +47,7 @@ public class EditResumeServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String param = req.getParameter("id");
         if ((param) != null) {
             Long id = Long.parseLong(param);
@@ -80,7 +81,6 @@ public class EditResumeServlet extends HttpServlet {
                     .salary(Integer.parseInt(req.getParameter("salary")))
                     .schedule(req.getParameter("schedule"))
                     .description(req.getParameter("description"))
-                    .experience(Integer.parseInt(req.getParameter("experience")))
                     .type(req.getParameter("type"))
                     .account(User.from((UserDto) req.getSession().getAttribute("user")))
                     .sphere(req.getParameter("sphere"))

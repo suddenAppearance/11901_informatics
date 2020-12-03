@@ -3,6 +3,7 @@ package com.hh.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hh.dto.UserDto;
 import com.hh.dto.WorkplaceForm;
+import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
 import com.hh.models.User;
 import com.hh.models.Workplace;
@@ -42,21 +43,22 @@ public class CreateResumeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("UTF-8");
+        resp.setContentType("text/html; UTF-8");
         VelocityContext velocityContext = new VelocityContext();
+        velocityContext.put("user", req.getSession().getAttribute("user"));
         Velocity.mergeTemplate("resume_create.vm", "UTF-8", velocityContext, resp.getWriter());
     }
 
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         Resume resume = Resume.builder()
                 .name(req.getParameter("name"))
                 .contact_info(req.getParameter("contact_info"))
                 .salary(Integer.parseInt(req.getParameter("salary")))
                 .schedule(req.getParameter("schedule"))
                 .description(req.getParameter("description"))
-                .experience(Integer.parseInt(req.getParameter("experience")))
                 .type(req.getParameter("type"))
                 .account(User.from((UserDto) req.getSession().getAttribute("user")))
                 .sphere(req.getParameter("sphere"))

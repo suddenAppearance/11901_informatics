@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet("/profile/vacancies/saved")
@@ -29,6 +30,8 @@ public class SavedVacanciesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding(SkeletonListener.ENCODING);
         VelocityContext velocityContext = new VelocityContext();
+        SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
+        velocityContext.put("df", df);
         List<Vacancy> vacancyList = vacanciesService.saved(User.from((UserDto) req.getSession().getAttribute("user")));
         velocityContext.put("vacancies", vacancyList);
         velocityContext.put("user", req.getSession().getAttribute("user"));

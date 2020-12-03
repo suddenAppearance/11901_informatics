@@ -19,8 +19,6 @@ public class ResumeDto {
     String sphere;
     String schedule;
     String type;
-    String[] tags;
-    Integer experience;
     String description;
     String contact_info;
     Integer salary;

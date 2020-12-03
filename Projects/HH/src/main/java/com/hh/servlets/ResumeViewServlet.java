@@ -4,7 +4,11 @@ import com.hh.dto.UserDto;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
 import com.hh.models.User;
+import com.hh.models.Workplace;
+import com.hh.repositories.WorkplacesRepository;
+import com.hh.repositories.WorkplacesRepositoryJdbcTemplateImpl;
 import com.hh.services.ResumesService;
+import com.hh.services.WorkplacesService;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -16,14 +20,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/resume")
 public class ResumeViewServlet extends HttpServlet {
     ResumesService resumesService;
+    WorkplacesService workplacesService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
         resumesService = (ResumesService) context.getAttribute("resumesService");
+        workplacesService = (WorkplacesService) context.getAttribute("workplacesService");
     }
 
     @Override
@@ -35,7 +44,11 @@ public class ResumeViewServlet extends HttpServlet {
             return;
         }
         VelocityContext velocityContext = new VelocityContext();
+        SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
+        velocityContext.put("creation_date", df.format(resume.getCreated()));
         velocityContext.put("resume", resume);
+        List<Workplace> workplaceList = workplacesService.workplacesOf(resume);
+        velocityContext.put("workplaces", workplaceList);
         UserDto userDto = (UserDto) req.getSession().getAttribute("user");
         if (userDto != null ){
             velocityContext.put("user", userDto);

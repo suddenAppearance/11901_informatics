@@ -25,6 +25,11 @@ public class DeleteResumeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
         Resume resume = resumesService.findResume(id).orElse(null);
         if (resume == null){
@@ -37,10 +42,5 @@ public class DeleteResumeServlet extends HttpServlet {
         }
         resumesService.delete(id);
         resp.sendRedirect("/profile/resumes");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 }

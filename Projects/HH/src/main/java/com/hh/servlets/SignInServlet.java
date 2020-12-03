@@ -43,6 +43,7 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         try {
             UserDto userDto = signInService.signIn(UserForm.builder()
                     .login(req.getParameter("username"))

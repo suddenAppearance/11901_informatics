@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
 
     private final RowMapper<Vacancy> rowMapper = (row, rowNumber) -> Vacancy.builder()
             .id(row.getLong("id"))
-            .creationDate(row.getDate("creation_date"))
+            .creationDate(row.getTimestamp("creation_date"))
             .name(row.getString("name"))
             .sphere(row.getString("sphere"))
             .schedule(row.getString("schedule"))
@@ -28,7 +29,6 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
             .address(row.getString("address"))
             .requirements(row.getString("requirements"))
             .description(row.getString("description"))
-            .tags((String[]) row.getArray("tags").getArray())
             .contact_info(row.getString("contact_info"))
             .salary(row.getInt("salary"))
             .account(usersRepository.findByLogin(row.getString("account")).orElse(null)).build();
@@ -53,14 +53,13 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
                 "address, " +
                 "requirements, " +
                 "description, " +
-                "tags, " +
                 "contact_info, " +
                 "salary, " +
-                "account) values (current_timestamp,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "account) values (current_timestamp,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql_save, entity.getName(), entity.getSphere(),
                 entity.getSchedule(), entity.getType(), entity.getPaymentSchedule(), entity.getExperience(),
                 entity.getPlace(), entity.getAddress(), entity.getRequirements(), entity.getDescription(),
-                entity.getTags(), entity.getContact_info(), entity.getSalary(), entity.getAccount().getLogin());
+                entity.getContact_info(), entity.getSalary(), entity.getAccount().getLogin());
 
     }
 
@@ -78,21 +77,20 @@ public class VacanciesRepositoryJdbcTemplateImpl implements VacanciesRepository 
                 "address = ?," +
                 "requirements = ?," +
                 "description = ?," +
-                "tags = ?," +
                 "contact_info = ?," +
                 "salary = ?" +
                 "where id = ?";
         jdbcTemplate.update(sql_update, entity.getName(), entity.getSphere(),
                 entity.getSchedule(), entity.getType(), entity.getPaymentSchedule(), entity.getExperience(),
                 entity.getPlace(), entity.getAddress(), entity.getRequirements(), entity.getDescription(),
-                entity.getTags(), entity.getContact_info(), entity.getSalary(), entity.getId());
+                entity.getContact_info(), entity.getSalary(), entity.getId());
 
     }
 
     @Override
     public void delete(Long id) {
         //language=SQL
-        String sql_delete = "delete from vacancy where id = ?; delete from favorite_vacancies where vacancy = ?";
+        String sql_delete = "delete from favorite_vacancies where vacancy = ?; delete from vacancy where id = ?;";
         jdbcTemplate.update(sql_delete, id, id);
     }
 

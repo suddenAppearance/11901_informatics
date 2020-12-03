@@ -17,14 +17,13 @@ public class ResumesRepositoryJdbcTemplateImpl implements ResumesRepository {
     RowMapper<Resume> resumeRowMapper = (row, rowNumber) -> Resume.builder()
             .name(row.getString("name"))
             .id(row.getLong("id"))
-            .created(row.getDate("created"))
+            .created(row.getTimestamp("created"))
             .readyToBusinessTrip(row.getBoolean("ready_to_business_trip"))
             .moving(row.getBoolean("moving"))
             .sphere(row.getString("sphere"))
             .account(usersRepository.findByLogin(row.getString("account")).orElse(null))
             .schedule(row.getString("schedule"))
             .type(row.getString("type"))
-            .experience(row.getInt("experience"))
             .description(row.getString("description"))
             .salary(row.getInt("salary"))
             .contact_info(row.getString("contact_info")).build();
@@ -41,10 +40,10 @@ public class ResumesRepositoryJdbcTemplateImpl implements ResumesRepository {
         Long id = jdbcTemplate.queryForObject(sql_id, Long.class);
         //language=sql
         String sql_save = "insert into resume(id, name, created, ready_to_business_trip, moving," +
-                " sphere, schedule, type, experience, description, salary, account, contact_info) values" +
-                "(?, ?, current_timestamp, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                " sphere, schedule, type, description, salary, account, contact_info) values" +
+                "(?, ?, current_timestamp, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql_save, id, entity.getName(), entity.getReadyToBusinessTrip(), entity.getMoving(),
-                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getExperience(), entity.getDescription(),
+                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getDescription(),
                 entity.getSalary(), entity.getAccount().getLogin(), entity.getContact_info());
         return id;
     }
@@ -105,10 +104,10 @@ public class ResumesRepositoryJdbcTemplateImpl implements ResumesRepository {
     public void save(Resume entity) {
         //language=sql
         String sql_save = "insert into resume(name, created, ready_to_business_trip, moving," +
-                " sphere, schedule, type, experience, description, salary, account, contact_info) values" +
-                "(?, current_timestamp, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                " sphere, schedule, type, description, salary, account, contact_info) values" +
+                "(?, current_timestamp, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql_save, entity.getName(), entity.getReadyToBusinessTrip(), entity.getMoving(),
-                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getExperience(), entity.getDescription(),
+                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getDescription(),
                 entity.getSalary(), entity.getAccount().getLogin(), entity.getContact_info());
     }
 
@@ -116,17 +115,17 @@ public class ResumesRepositoryJdbcTemplateImpl implements ResumesRepository {
     public void update(Resume entity) {
         //language=sql
         String sql_update = "update resume set name=?, ready_to_business_trip = ?, moving = ?, sphere = ?, schedule = ?," +
-                "type = ?, experience = ?, description = ?, salary = ?, account = ?, contact_info = ? where id = ?";
+                "type = ?, description = ?, salary = ?, account = ?, contact_info = ? where id = ?";
         jdbcTemplate.update(sql_update, entity.getName(), entity.getReadyToBusinessTrip(), entity.getMoving(),
-                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getExperience(), entity.getDescription(),
+                entity.getSphere(), entity.getSchedule(), entity.getType(), entity.getDescription(),
                 entity.getSalary(), entity.getAccount().getLogin(), entity.getContact_info(), entity.getId());
     }
 
     @Override
     public void delete(Long id) {
         //language=sql
-        String sql_delete = "delete from resume where id = ?; delete from favorite_resumes where resume = ?";
-        jdbcTemplate.update(sql_delete, id, id);
+        String sql_delete = "delete from workplace where resume = ?; delete from favorite_resumes where resume = ?;delete from resume where id = ?;";
+        jdbcTemplate.update(sql_delete,id , id, id);
     }
 
     @Override

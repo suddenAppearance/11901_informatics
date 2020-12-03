@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,8 @@ public class ResumesServlet extends HttpServlet {
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("resumes", resumes);
         velocityContext.put("user", req.getSession().getAttribute("user"));
+        SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
+        velocityContext.put("df", df);
         resp.setCharacterEncoding(SkeletonListener.ENCODING);
         Velocity.mergeTemplate("resumes.vm", SkeletonListener.ENCODING, velocityContext, resp.getWriter());
     }

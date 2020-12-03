@@ -22,7 +22,6 @@ public class VacancyForm {
     String address;
     String requirements;
     String description;
-    String[] tags;
     String contact_info;
     Integer salary;
 }

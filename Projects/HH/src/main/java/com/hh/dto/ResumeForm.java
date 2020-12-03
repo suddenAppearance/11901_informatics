@@ -11,9 +11,6 @@ public class ResumeForm {
     String sphere;
     String schedule;
     String type;
-    String[] tags;
-    Integer experience;
-    Integer[] workplaces_id;
     String description;
     String contact_info;
     Integer salary;

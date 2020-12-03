@@ -25,6 +25,7 @@ public class UnlikeVacancyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         vacanciesService.unlike(Vacancy.builder().id(Long.parseLong(req.getParameter("id"))).build(), User.from((UserDto) req.getSession().getAttribute("user")));
         resp.setContentType("text/plain; utf-8");
         resp.setCharacterEncoding(SkeletonListener.ENCODING);

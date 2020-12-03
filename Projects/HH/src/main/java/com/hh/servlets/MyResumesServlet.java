@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet("/profile/resumes")
@@ -33,6 +34,8 @@ public class MyResumesServlet extends HttpServlet {
         VelocityContext velocityContext = new VelocityContext();
         UserDto userDto = ((UserDto)req.getSession().getAttribute("user"));
         List<Resume> resumeList = resumesService.resumesOf(userDto.getLogin());
+        SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
+        velocityContext.put("df", df);
         velocityContext.put("resumes", resumeList);
         velocityContext.put("user", userDto);
         Velocity.mergeTemplate("my_resumes.vm", SkeletonListener.ENCODING, velocityContext, resp.getWriter());

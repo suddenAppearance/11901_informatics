@@ -25,6 +25,12 @@ public class DeleteVacancyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
         Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
         if (vacancy == null){
@@ -37,10 +43,5 @@ public class DeleteVacancyServlet extends HttpServlet {
         }
         vacanciesService.delete(id);
         resp.sendRedirect("/profile/vacancies");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 }

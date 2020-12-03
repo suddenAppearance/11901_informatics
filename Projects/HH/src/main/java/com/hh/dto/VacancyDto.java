@@ -24,7 +24,6 @@ public class VacancyDto {
     String address;
     String requirements;
     String description;
-    String[] tags;
     String contact_info;
     Integer salary;
 
@@ -42,7 +41,6 @@ public class VacancyDto {
                 .address(vacancy.getAddress())
                 .requirements(vacancy.getRequirements())
                 .description(vacancy.getDescription())
-                .tags(vacancy.getTags())
                 .contact_info(vacancy.getContact_info())
                 .salary(vacancy.getSalary()).build();
     }

@@ -4,7 +4,7 @@ import com.hh.dto.UserDto;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.User;
 import com.hh.models.Vacancy;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -20,18 +20,18 @@ import java.text.SimpleDateFormat;
 
 @WebServlet("/vacancy")
 public class VacancyViewServlet extends HttpServlet {
-    VacanciesService vacanciesService;
+    VacanciesServiceImpl vacanciesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
-        vacanciesService = (VacanciesService) context.getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) context.getAttribute("vacanciesService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
-        Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
+        Vacancy vacancy = vacanciesServiceImpl.findVacancy(id).orElse(null);
         if (vacancy == null) {
             resp.sendError(404);
             return;
@@ -41,7 +41,7 @@ public class VacancyViewServlet extends HttpServlet {
         SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
         velocityContext.put("creation_date", df.format(vacancy.getCreationDate()));
         if (req.getSession().getAttribute("user") != null){
-            velocityContext.put("is_liked", vacanciesService.is_liked(vacancy, User.from((UserDto) req.getSession().getAttribute("user"))));
+            velocityContext.put("is_liked", vacanciesServiceImpl.is_liked(vacancy, User.from((UserDto) req.getSession().getAttribute("user"))));
             velocityContext.put("user", req.getSession().getAttribute("user"));
         }
         resp.setCharacterEncoding(SkeletonListener.ENCODING);

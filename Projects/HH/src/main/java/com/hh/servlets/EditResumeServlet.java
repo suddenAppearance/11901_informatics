@@ -8,12 +8,11 @@ import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
 import com.hh.models.User;
 import com.hh.models.Workplace;
-import com.hh.services.ResumesService;
-import com.hh.services.WorkplacesService;
+import com.hh.services.ResumesServiceImpl;
+import com.hh.services.WorkplacesServiceImpl;
 import lombok.SneakyThrows;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -28,15 +27,15 @@ import java.text.SimpleDateFormat;
 
 @WebServlet("/resume/edit")
 public class EditResumeServlet extends HttpServlet {
-    WorkplacesService workplacesService;
-    ResumesService resumesService;
+    WorkplacesServiceImpl workplacesServiceImpl;
+    ResumesServiceImpl resumesServiceImpl;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        resumesService = (ResumesService) servletContext.getAttribute("resumesService");
-        workplacesService = (WorkplacesService) servletContext.getAttribute("workplacesService");
+        resumesServiceImpl = (ResumesServiceImpl) servletContext.getAttribute("resumesService");
+        workplacesServiceImpl = (WorkplacesServiceImpl) servletContext.getAttribute("workplacesService");
     }
 
     @Override
@@ -51,7 +50,7 @@ public class EditResumeServlet extends HttpServlet {
         String param = req.getParameter("id");
         if ((param) != null) {
             Long id = Long.parseLong(param);
-            Resume resume = resumesService.findResume(id).orElse(null);
+            Resume resume = resumesServiceImpl.findResume(id).orElse(null);
             if (resume == null) {
                 resp.setStatus(404);
                 return;
@@ -65,7 +64,7 @@ public class EditResumeServlet extends HttpServlet {
             VelocityContext velocityContext = new VelocityContext();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             velocityContext.put("df", dateFormat);
-            velocityContext.put("workplaces", WorkplaceDto.listFrom(workplacesService.workplacesOf(resume)));
+            velocityContext.put("workplaces", WorkplaceDto.listFrom(workplacesServiceImpl.workplacesOf(resume)));
             velocityContext.put("objectMapper", objectMapper);
             velocityContext.put("user", req.getSession().getAttribute("user"));
             velocityContext.put("resume", resume);
@@ -87,7 +86,7 @@ public class EditResumeServlet extends HttpServlet {
                     .moving(Boolean.parseBoolean(req.getParameter("moving")))
                     .readyToBusinessTrip(Boolean.parseBoolean(req.getParameter("readyToBusinessTrip")))
                     .build();
-            resumesService.update(resume);
+            resumesServiceImpl.update(resume);
             String[] r = req.getParameterValues("workplaces");
             if (r != null) {
                 for (String workplaceJson : r
@@ -95,11 +94,11 @@ public class EditResumeServlet extends HttpServlet {
                     WorkplaceForm workplaceForm = objectMapper.readValue(workplaceJson, WorkplaceForm.class);
                     Workplace workplace = Workplace.from(workplaceForm);
                     if(workplace.getId() != null){
-                        workplacesService.update(workplace);
+                        workplacesServiceImpl.update(workplace);
                         continue;
                     }
                     workplace.setResume(resume);
-                    workplacesService.save(workplace);
+                    workplacesServiceImpl.save(workplace);
                 }
             }
             resp.sendRedirect("/profile/resumes");

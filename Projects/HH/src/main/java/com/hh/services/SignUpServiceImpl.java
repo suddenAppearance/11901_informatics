@@ -6,17 +6,18 @@ import com.hh.repositories.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class SignUpServiceImpl implements SignUpService {
-    public SignUpServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public SignUpServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, ValidationService validationService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.validationService = validationService;
     }
 
     UsersRepository usersRepository;
     PasswordEncoder passwordEncoder;
-
+    ValidationService validationService;
     @Override
     public void signUp(UserForm userForm) {
-        if (!ValidationService.username_is_valid(userForm.getLogin())){
+        if (!validationService.username_is_valid(userForm.getLogin())){
            new Exception("Username invalid").printStackTrace();
            return;
         }

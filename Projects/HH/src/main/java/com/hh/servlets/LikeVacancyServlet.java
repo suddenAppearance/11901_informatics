@@ -1,10 +1,9 @@
 package com.hh.servlets;
 
 import com.hh.dto.UserDto;
-import com.hh.models.Resume;
 import com.hh.models.User;
 import com.hh.models.Vacancy;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,16 +15,16 @@ import java.io.IOException;
 
 @WebServlet("/vacancy/like")
 public class LikeVacancyServlet extends HttpServlet {
-    VacanciesService vacanciesService;
+    VacanciesServiceImpl vacanciesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        vacanciesService = (VacanciesService) config.getServletContext().getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) config.getServletContext().getAttribute("vacanciesService");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        vacanciesService.like(Vacancy.builder().id(Long.parseLong(req.getParameter("id"))).build(), User.from((UserDto) req.getSession().getAttribute("user")));
+        vacanciesServiceImpl.like(Vacancy.builder().id(Long.parseLong(req.getParameter("id"))).build(), User.from((UserDto) req.getSession().getAttribute("user")));
         resp.setStatus(200);
         resp.getWriter().write("done");
     }

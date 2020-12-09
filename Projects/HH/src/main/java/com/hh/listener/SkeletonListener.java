@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.hh.repositories.*;
 import com.hh.services.*;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,12 +40,12 @@ public class SkeletonListener implements ServletContextListener {
         ResumesRepository resumesRepository = new ResumesRepositoryJdbcTemplateImpl(dataSource, usersRepository);
         WorkplacesRepository workplacesRepository = new WorkplacesRepositoryJdbcTemplateImpl(dataSource, resumesRepository);
 
-        VacanciesService vacanciesService = new VacanciesService(vacanciesRepository);
-        SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder);
+        ValidationServiceImpl validationService = new ValidationServiceImpl(usersRepository);
+        VacanciesServiceImpl vacanciesServiceImpl = new VacanciesServiceImpl(vacanciesRepository);
+        SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validationService);
         SignInService signInService = new SignInServiceImpl(usersRepository, passwordEncoder);
-        ValidationService validationService = new ValidationService(usersRepository);
-        WorkplacesService workplacesService = new WorkplacesService(workplacesRepository);
-        ResumesService resumesService = new ResumesService(resumesRepository);
+        WorkplacesServiceImpl workplacesServiceImpl = new WorkplacesServiceImpl(workplacesRepository);
+        ResumesServiceImpl resumesServiceImpl = new ResumesServiceImpl(resumesRepository);
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -57,9 +56,9 @@ public class SkeletonListener implements ServletContextListener {
         servletContext.setAttribute("signUpService", signUpService);
         servletContext.setAttribute("signInService", signInService);
         servletContext.setAttribute("validationService", validationService);
-        servletContext.setAttribute("vacanciesService", vacanciesService);
-        servletContext.setAttribute("workplacesService", workplacesService);
-        servletContext.setAttribute("resumesService", resumesService);
+        servletContext.setAttribute("vacanciesService", vacanciesServiceImpl);
+        servletContext.setAttribute("workplacesService", workplacesServiceImpl);
+        servletContext.setAttribute("resumesService", resumesServiceImpl);
     }
 
     @Override

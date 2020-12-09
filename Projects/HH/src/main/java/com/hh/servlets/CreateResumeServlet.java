@@ -3,14 +3,11 @@ package com.hh.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hh.dto.UserDto;
 import com.hh.dto.WorkplaceForm;
-import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
 import com.hh.models.User;
 import com.hh.models.Workplace;
-import com.hh.repositories.ResumesRepository;
-import com.hh.repositories.WorkplacesRepository;
-import com.hh.services.ResumesService;
-import com.hh.services.WorkplacesService;
+import com.hh.services.ResumesServiceImpl;
+import com.hh.services.WorkplacesServiceImpl;
 import lombok.SneakyThrows;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -23,21 +20,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 
 @WebServlet("/resume/create")
 public class CreateResumeServlet extends HttpServlet {
-    ResumesService resumesService;
-    WorkplacesService workplacesService;
+    ResumesServiceImpl resumesServiceImpl;
+    WorkplacesServiceImpl workplacesServiceImpl;
     ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        resumesService = (ResumesService) servletContext.getAttribute("resumesService");
-        workplacesService = (WorkplacesService) servletContext.getAttribute("workplacesService");
+        resumesServiceImpl = (ResumesServiceImpl) servletContext.getAttribute("resumesService");
+        workplacesServiceImpl = (WorkplacesServiceImpl) servletContext.getAttribute("workplacesService");
     }
 
     @Override
@@ -65,7 +58,7 @@ public class CreateResumeServlet extends HttpServlet {
                 .moving(Boolean.parseBoolean(req.getParameter("moving")))
                 .readyToBusinessTrip(Boolean.parseBoolean(req.getParameter("readyToBusinessTrip")))
                 .build();
-        Long identifier = resumesService.save(resume);
+        Long identifier = resumesServiceImpl.save(resume);
         resume.setId(identifier);
         String[] r = req.getParameterValues("workplaces");
         if (r != null) {
@@ -74,7 +67,7 @@ public class CreateResumeServlet extends HttpServlet {
                 WorkplaceForm workplaceForm = objectMapper.readValue(workplaceJson, WorkplaceForm.class);
                 Workplace workplace = Workplace.from(workplaceForm);
                 workplace.setResume(resume);
-                workplacesService.save(workplace);
+                workplacesServiceImpl.save(workplace);
             }
         }
 

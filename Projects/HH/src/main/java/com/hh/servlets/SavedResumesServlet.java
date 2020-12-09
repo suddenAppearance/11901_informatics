@@ -4,7 +4,7 @@ import com.hh.dto.UserDto;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
 import com.hh.models.User;
-import com.hh.services.ResumesService;
+import com.hh.services.ResumesServiceImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -20,10 +20,10 @@ import java.util.List;
 
 @WebServlet("/profile/resumes/saved")
 public class SavedResumesServlet extends HttpServlet {
-    ResumesService resumesService;
+    ResumesServiceImpl resumesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        resumesService = (ResumesService) config.getServletContext().getAttribute("resumesService");
+        resumesServiceImpl = (ResumesServiceImpl) config.getServletContext().getAttribute("resumesService");
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SavedResumesServlet extends HttpServlet {
         VelocityContext velocityContext = new VelocityContext();
         SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
         velocityContext.put("df", df);
-        List<Resume> resumeList = resumesService.saved(User.from((UserDto) req.getSession().getAttribute("user")));
+        List<Resume> resumeList = resumesServiceImpl.saved(User.from((UserDto) req.getSession().getAttribute("user")));
         velocityContext.put("resumes", resumeList);
         velocityContext.put("user", req.getSession().getAttribute("user"));
         Velocity.mergeTemplate("saved_resumes.vm", SkeletonListener.ENCODING, velocityContext, resp.getWriter());

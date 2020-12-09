@@ -4,11 +4,11 @@ import com.hh.dto.UserDto;
 import com.hh.dto.VacancyForm;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Vacancy;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 import com.hh.services.ValidationService;
+import com.hh.services.ValidationServiceImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -22,12 +22,13 @@ import java.util.Optional;
 
 @WebServlet("/vacancy/edit")
 public class EditVacancyServlet extends HttpServlet {
-    VacanciesService vacanciesService;
-
+    VacanciesServiceImpl vacanciesServiceImpl;
+    ValidationService validationService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        vacanciesService = (VacanciesService) servletContext.getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) servletContext.getAttribute("vacanciesService");
+        validationService = (ValidationService) servletContext.getAttribute("validationService");
     }
 
     @Override
@@ -35,12 +36,12 @@ public class EditVacancyServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
         UserDto userDto = (UserDto) req.getSession().getAttribute("user");
-        Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
+        Vacancy vacancy = vacanciesServiceImpl.findVacancy(id).orElse(null);
         if (vacancy == null) {
             resp.setStatus(404);
             return;
         }
-        if (!ValidationService.editing_or_deleting_is_permited(userDto, vacancy)){
+        if (!validationService.editing_or_deleting_is_permited(userDto, vacancy)){
             resp.setStatus(403);
             return;
         }
@@ -70,7 +71,7 @@ public class EditVacancyServlet extends HttpServlet {
                 .sphere(req.getParameter("sphere"))
                 .type(req.getParameter("type"))
                 .build();
-        vacanciesService.update(Vacancy.from(vacancyForm));
+        vacanciesServiceImpl.update(Vacancy.from(vacancyForm));
         resp.sendRedirect("/profile/vacancies");
     }
 }

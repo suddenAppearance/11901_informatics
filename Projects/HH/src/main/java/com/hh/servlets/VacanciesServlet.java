@@ -3,7 +3,7 @@ package com.hh.servlets;
 import com.hh.dto.UserDto;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Vacancy;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -20,16 +20,16 @@ import java.util.List;
 
 @WebServlet("/vacancies")
 public class VacanciesServlet extends HttpServlet {
-    VacanciesService vacanciesService;
+    VacanciesServiceImpl vacanciesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        vacanciesService = (VacanciesService) servletContext.getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) servletContext.getAttribute("vacanciesService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Vacancy> vacancies = vacanciesService.allVacancies();
+        List<Vacancy> vacancies = vacanciesServiceImpl.allVacancies();
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("vacancies", vacancies);
         SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");

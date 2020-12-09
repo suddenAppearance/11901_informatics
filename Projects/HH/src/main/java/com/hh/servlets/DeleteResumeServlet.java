@@ -2,8 +2,7 @@ package com.hh.servlets;
 
 import com.hh.dto.UserDto;
 import com.hh.models.Resume;
-import com.hh.services.ResumesService;
-import com.hh.services.VacanciesService;
+import com.hh.services.ResumesServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -16,11 +15,11 @@ import java.io.IOException;
 
 @WebServlet("/resume/delete")
 public class DeleteResumeServlet extends HttpServlet {
-    ResumesService resumesService;
+    ResumesServiceImpl resumesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        resumesService = (ResumesService) servletContext.getAttribute("resumesService");
+        resumesServiceImpl = (ResumesServiceImpl) servletContext.getAttribute("resumesService");
     }
 
     @Override
@@ -31,7 +30,7 @@ public class DeleteResumeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
-        Resume resume = resumesService.findResume(id).orElse(null);
+        Resume resume = resumesServiceImpl.findResume(id).orElse(null);
         if (resume == null){
             resp.setStatus(404);
             return;
@@ -40,7 +39,7 @@ public class DeleteResumeServlet extends HttpServlet {
             resp.setStatus(403);
             return;
         }
-        resumesService.delete(id);
+        resumesServiceImpl.delete(id);
         resp.sendRedirect("/profile/resumes");
     }
 }

@@ -1,9 +1,8 @@
 package com.hh.servlets;
 
 import com.hh.dto.UserDto;
-import com.hh.models.Resume;
 import com.hh.models.Vacancy;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -16,11 +15,11 @@ import java.io.IOException;
 
 @WebServlet("/vacancy/delete")
 public class DeleteVacancyServlet extends HttpServlet {
-    VacanciesService vacanciesService;
+    VacanciesServiceImpl vacanciesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        vacanciesService = (VacanciesService) servletContext.getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) servletContext.getAttribute("vacanciesService");
     }
 
     @Override
@@ -32,7 +31,7 @@ public class DeleteVacancyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(req.getParameter("id"));
-        Vacancy vacancy = vacanciesService.findVacancy(id).orElse(null);
+        Vacancy vacancy = vacanciesServiceImpl.findVacancy(id).orElse(null);
         if (vacancy == null){
             resp.setStatus(404);
             return;
@@ -41,7 +40,7 @@ public class DeleteVacancyServlet extends HttpServlet {
             resp.setStatus(403);
             return;
         }
-        vacanciesService.delete(id);
+        vacanciesServiceImpl.delete(id);
         resp.sendRedirect("/profile/vacancies");
     }
 }

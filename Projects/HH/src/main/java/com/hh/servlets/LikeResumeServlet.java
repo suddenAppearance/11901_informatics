@@ -3,9 +3,7 @@ package com.hh.servlets;
 import com.hh.dto.UserDto;
 import com.hh.models.Resume;
 import com.hh.models.User;
-import com.hh.models.Vacancy;
-import com.hh.services.ResumesService;
-import com.hh.services.VacanciesService;
+import com.hh.services.ResumesServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @WebServlet("/resume/like")
 public class LikeResumeServlet extends HttpServlet {
-    ResumesService vacanciesService;
+    ResumesServiceImpl vacanciesService;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        vacanciesService = (ResumesService) config.getServletContext().getAttribute("resumesService");
+        vacanciesService = (ResumesServiceImpl) config.getServletContext().getAttribute("resumesService");
     }
 
     @Override

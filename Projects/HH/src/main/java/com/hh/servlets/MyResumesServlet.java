@@ -3,7 +3,7 @@ package com.hh.servlets;
 import com.hh.dto.UserDto;
 import com.hh.listener.SkeletonListener;
 import com.hh.models.Resume;
-import com.hh.services.ResumesService;
+import com.hh.services.ResumesServiceImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -20,11 +20,11 @@ import java.util.List;
 
 @WebServlet("/profile/resumes")
 public class MyResumesServlet extends HttpServlet {
-    ResumesService resumesService;
+    ResumesServiceImpl resumesServiceImpl;
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        resumesService = (ResumesService) servletContext.getAttribute("resumesService");
+        resumesServiceImpl = (ResumesServiceImpl) servletContext.getAttribute("resumesService");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MyResumesServlet extends HttpServlet {
         resp.setContentType("text/html; " + SkeletonListener.ENCODING);
         VelocityContext velocityContext = new VelocityContext();
         UserDto userDto = ((UserDto)req.getSession().getAttribute("user"));
-        List<Resume> resumeList = resumesService.resumesOf(userDto.getLogin());
+        List<Resume> resumeList = resumesServiceImpl.resumesOf(userDto.getLogin());
         SimpleDateFormat df = new SimpleDateFormat("E, d MMMM yyyy HH:mm");
         velocityContext.put("df", df);
         velocityContext.put("resumes", resumeList);

@@ -3,7 +3,7 @@ package com.hh.servlets;
 import com.hh.dto.UserDto;
 import com.hh.dto.VacancyForm;
 import com.hh.listener.SkeletonListener;
-import com.hh.services.VacanciesService;
+import com.hh.services.VacanciesServiceImpl;
 import lombok.SneakyThrows;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -16,18 +16,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 @WebServlet("/vacancy/create")
 public class CreateVacancyServlet extends HttpServlet {
-    VacanciesService vacanciesService;
+    VacanciesServiceImpl vacanciesServiceImpl;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext servletContext = config.getServletContext();
-        vacanciesService = (VacanciesService) servletContext.getAttribute("vacanciesService");
+        vacanciesServiceImpl = (VacanciesServiceImpl) servletContext.getAttribute("vacanciesService");
     }
 
     @Override
@@ -58,7 +56,7 @@ public class CreateVacancyServlet extends HttpServlet {
                 .sphere(req.getParameter("sphere"))
                 .type(req.getParameter("type"))
                 .build();
-        vacanciesService.createVacancy(vacancyForm, (UserDto) req.getSession().getAttribute("user"));
+        vacanciesServiceImpl.createVacancy(vacancyForm, (UserDto) req.getSession().getAttribute("user"));
         resp.sendRedirect("/profile/vacancies");
     }
 }

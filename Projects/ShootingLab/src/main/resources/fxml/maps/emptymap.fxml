@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+
+
+<Group xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itis.controllers.GameController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="912.0">
+         <children>
+            <Circle fx:id="player1" fill="DODGERBLUE" layoutX="40.0" layoutY="246.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="player2" fill="#ff1f1f" layoutX="872.0" layoutY="246.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+      </AnchorPane>
+   </children>
+</Group>

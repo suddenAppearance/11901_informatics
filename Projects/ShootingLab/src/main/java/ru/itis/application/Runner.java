@@ -4,8 +4,9 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 import ru.itis.controllers.ConnectionController;
@@ -23,16 +24,27 @@ import java.util.List;
 import java.util.Objects;
 
 public class Runner extends Application {
-    private Group connection;
+    private Scene connection;
     private ConnectionController connectionController;
-    private Group menu;
+    private Scene menu;
     private MenuController menuController;
-    private Group game;
+
+    public Scene getGame(String map) throws IOException {
+        if (game == null){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/maps/" + map));
+            game = loader.load();
+            gameController = loader.getController();
+            gameController.runner = this;
+        }
+        return game;
+    }
+
+    private Scene game;
     private GameController gameController;
-    private Group mapPick;
+    private Scene mapPick;
     private MapPickController mapPickController;
     private Stage stage;
-    private Group current;
+    private Scene current;
     private SocketClient socketClient;
     private ReceiveMessageTask receiveMessageTask;
 
@@ -44,11 +56,11 @@ public class Runner extends Application {
         this.stage = stage;
     }
 
-    public Group getCurrent() {
+    public Scene getCurrent() {
         return current;
     }
 
-    public void setCurrent(Group current) {
+    public void setCurrent(Scene current) {
         this.current = current;
     }
 
@@ -71,10 +83,10 @@ public class Runner extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        Group g = getMenu();
+        Scene g = getMenu();
         MenuController controller = getMenuController();
         controller.runner = this;
-        primaryStage.setScene(new Scene(g));
+        primaryStage.setScene(g);
         primaryStage.show();
     }
 
@@ -82,7 +94,7 @@ public class Runner extends Application {
         launch();
     }
 
-    public Group getConnection() throws IOException {
+    public Scene getConnection() throws IOException {
         if (connection == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/connection.fxml"));
             connection = loader.load();
@@ -94,7 +106,7 @@ public class Runner extends Application {
         return connection;
     }
 
-    public void setConnection(Group connection) {
+    public void setConnection(Scene connection) {
         this.connection = connection;
     }
 
@@ -109,7 +121,7 @@ public class Runner extends Application {
         this.connectionController = connectionController;
     }
 
-    public Group getMenu() throws IOException {
+    public Scene getMenu() throws IOException {
         if (menu == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/menu.fxml"));
             menu = loader.load();
@@ -119,7 +131,7 @@ public class Runner extends Application {
         return menu;
     }
 
-    public void setMenu(Group menu) {
+    public void setMenu(Scene menu) {
         this.menu = menu;
     }
 
@@ -139,17 +151,18 @@ public class Runner extends Application {
         this.gameController = gameController;
     }
 
-    public Group getMapPick() throws IOException {
+    public Scene getMapPick() throws IOException {
         if (mapPick == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mapPick.fxml"));
             mapPick = loader.load();
             mapPickController = loader.getController();
             mapPickController.runner = this;
         }
+
         return mapPick;
     }
 
-    public void setMapPick(Group mapPick) {
+    public void setMapPick(Scene mapPick) {
         this.mapPick = mapPick;
     }
 

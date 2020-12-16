@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class MenuController extends Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         playButton.setOnAction(event -> {
             try {
-                runner.getStage().getScene().setRoot(runner.getConnection());
+                runner.getStage().setScene(runner.getConnection());
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }

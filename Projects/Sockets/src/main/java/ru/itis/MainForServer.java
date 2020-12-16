@@ -2,7 +2,7 @@ package ru.itis;
 
 public class MainForServer {
     public static void main(String[] args) {
-        Server server = new Server();
-        server.start(7777);
+        Thread thread = new Thread(new Server());
+        thread.start();
     }
 }

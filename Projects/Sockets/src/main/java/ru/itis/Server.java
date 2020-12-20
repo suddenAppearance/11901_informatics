@@ -26,7 +26,7 @@ public class Server implements Runnable {
             // как только клиент подключился, поток продолжает выполнение и помещает
             // "клиента" в client
             waitConnection(server);
-            waitMapPick();
+            waitPlayerReady();
 
         } catch (IOException e) {
             throw new IllegalStateException(e);
@@ -50,18 +50,7 @@ public class Server implements Runnable {
         TimeUnit.SECONDS.sleep(1);
     }
 
-    private void waitMapPick() throws IOException, InterruptedException {
-        toPlayer1.println("map");
-        toPlayer2.println("mappick");
-        TimeUnit.SECONDS.sleep(1);
-        String message = fromPlayer1.readLine();
-        while (message == null) {
-            message = fromPlayer1.readLine();
-        }
-        Random random = new Random();
-        int a = random.nextInt(2);
-        toPlayer2.println(message + " player" + (a + 1));
-        toPlayer1.println(message + "    player" + (2 - a));
+    private void waitPlayerReady() throws IOException, InterruptedException {
         while (true) {
             String messageFromPlayer1 = null;
             String messageFromPlayer2 = null;

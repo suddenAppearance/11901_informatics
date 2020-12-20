@@ -5,9 +5,11 @@ import javafx.concurrent.Task;
 import javafx.scene.shape.Circle;
 import ru.itis.controllers.ConnectionController;
 import ru.itis.controllers.GameController;
+import ru.itis.models.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 30.11.2020
@@ -43,43 +45,28 @@ public class ReceiveMessageTask extends Task<Void> {
                 } else if (messageFromServer.matches("start")) {
                     Platform.runLater(() -> {
                         controller.getStatus().setText("Запуск...");
-                    });
-
-                } else if (messageFromServer.equals("map")) {
-                    Platform.runLater(() -> {
                         try {
-                            controller.runner.getStage().setScene(controller.runner.getMapPick());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-                } else if (messageFromServer.equals("mappick")) {
-                    Platform.runLater(() -> {
-                        controller.getStatus().setText("Соперник выбирает карту. Ожидайте");
-                    });
-
-                } else if (messageFromServer.matches("^map is .+ player[1-2]")) {
-                    Platform.runLater(() -> {
-                        try {
-                            controller.runner.getStage().setScene(controller.runner.getGame(messageFromServer.split(" ")[2]));
+                            TimeUnit.SECONDS.sleep(1);
+                            controller.runner.getStage().setScene(controller.runner.getGame());
                             gameController = controller.runner.getGameController();
-                            gameController.runner = controller.runner;
-                            if (messageFromServer.split(" ")[3].equals("player2")) {
-                                Circle temp = gameController.getPlayer1();
-                                gameController.setPlayer1(gameController.getPlayer2());
-                                gameController.setPlayer2(temp);
-                            }
-                            gameController.runner.getStage().getScene().setOnKeyPressed(gameController.getMoveButtonPressed());
-                            gameController.runner.getStage().getScene().setOnKeyReleased(gameController.getMoveButtonReleased());
+                        } catch (InterruptedException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                } else if (messageFromServer.matches("shot from .+")){
+                    String[] tokens = messageFromServer.split(" ");
+                    Platform.runLater(()->gameController.shot_fired(Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]), Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5])));
+                } else if (messageFromServer.equals("end")){
+                    Platform.runLater(()-> {
+                        try {
+                            gameController.runner.getStage().setScene(controller.runner.getEnd());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-                } else if (messageFromServer.matches("mov -?[0-9]+ -?[0-9]+")) {
-                    String[] command = messageFromServer.split(" ");
-                    gameController.movePlayer2(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
                 }
+
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }

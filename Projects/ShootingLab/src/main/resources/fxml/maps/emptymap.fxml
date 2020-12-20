@@ -4,13 +4,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-
 <Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itis.controllers.GameController">
    <root>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="912.0">
+      <AnchorPane minHeight="600.0" minWidth="800.0">
          <children>
-            <Circle fx:id="player1" fill="DODGERBLUE" layoutX="40.0" layoutY="246.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="player2" fill="#ff1f1f" layoutX="872.0" layoutY="246.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="player1" fill="DODGERBLUE" layoutX="400.0" layoutY="560.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </AnchorPane>
    </root>

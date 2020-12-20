@@ -1,27 +1,17 @@
 package ru.itis.application;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lombok.SneakyThrows;
 import ru.itis.controllers.ConnectionController;
 import ru.itis.controllers.GameController;
-import ru.itis.controllers.MapPickController;
 import ru.itis.controllers.MenuController;
 import ru.itis.sockets.ReceiveMessageTask;
 import ru.itis.sockets.SocketClient;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class Runner extends Application {
     private Scene connection;
@@ -29,12 +19,16 @@ public class Runner extends Application {
     private Scene menu;
     private MenuController menuController;
 
-    public Scene getGame(String map) throws IOException {
+    public Scene getGame() throws IOException {
         if (game == null){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/maps/" + map));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/maps/emptymap.fxml"));
             game = loader.load();
             gameController = loader.getController();
+            gameController.pane = (AnchorPane) game.getRoot();
             gameController.runner = this;
+            game.setOnKeyPressed(gameController.getMoveButtonPressed());
+            game.setOnKeyReleased(gameController.getMoveButtonReleased());
+
         }
         return game;
     }
@@ -42,7 +36,6 @@ public class Runner extends Application {
     private Scene game;
     private GameController gameController;
     private Scene mapPick;
-    private MapPickController mapPickController;
     private Stage stage;
     private Scene current;
     private SocketClient socketClient;
@@ -88,6 +81,7 @@ public class Runner extends Application {
         controller.runner = this;
         primaryStage.setScene(g);
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
     public void run() {
@@ -151,27 +145,7 @@ public class Runner extends Application {
         this.gameController = gameController;
     }
 
-    public Scene getMapPick() throws IOException {
-        if (mapPick == null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mapPick.fxml"));
-            mapPick = loader.load();
-            mapPickController = loader.getController();
-            mapPickController.runner = this;
-        }
-
-        return mapPick;
+    public Scene getEnd() throws IOException {
+        return new FXMLLoader(getClass().getResource("/fxml/end.fxml")).load();
     }
-
-    public void setMapPick(Scene mapPick) {
-        this.mapPick = mapPick;
-    }
-
-    public MapPickController getMapPickController() {
-        return mapPickController;
-    }
-
-    public void setMapPickController(MapPickController mapPickController) {
-        this.mapPickController = mapPickController;
-    }
-
 }

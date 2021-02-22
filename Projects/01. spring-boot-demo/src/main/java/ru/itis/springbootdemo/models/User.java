@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 10.02.2021
@@ -31,5 +32,8 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
-
+    @OneToMany(mappedBy = "account")
+    private List<Vacancy> vacancies;
+    @OneToMany(mappedBy = "account")
+    private List<Resume> resumes;
 }

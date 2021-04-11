@@ -36,4 +36,12 @@ public class User {
     private List<Vacancy> vacancies;
     @OneToMany(mappedBy = "account")
     private List<Resume> resumes;
+    private Role role;
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

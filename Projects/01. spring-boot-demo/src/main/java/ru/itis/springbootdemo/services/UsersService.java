@@ -1,6 +1,7 @@
 package ru.itis.springbootdemo.services;
 
 import ru.itis.springbootdemo.dto.UserDto;
+import ru.itis.springbootdemo.models.User;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface UsersService {
     List<UserDto> getAllUsers();
 
     UserDto getUser(Long userId);
+
+    User findByEmail(String email);
 
     boolean containsUsername(String username);
 }

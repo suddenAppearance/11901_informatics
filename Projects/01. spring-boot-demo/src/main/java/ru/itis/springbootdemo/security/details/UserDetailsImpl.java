@@ -39,6 +39,10 @@ public class UserDetailsImpl implements UserDetails {
         return user.getEmail();
     }
 
+    public Boolean getConfirmed(){
+        return user.getState().equals(State.CONFIRMED);
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -56,6 +60,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getState().equals(State.CONFIRMED);
+        return true;
     }
 }

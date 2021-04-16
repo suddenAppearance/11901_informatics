@@ -7,7 +7,9 @@ import ru.itis.springbootdemo.models.User;
 import ru.itis.springbootdemo.repositories.UsersRepository;
 
 import java.util.List;
+
 import static ru.itis.springbootdemo.dto.UserDto.*;
+
 /**
  * 10.02.2021
  * spring-boot-demo
@@ -30,6 +32,12 @@ public class UsersServiceImpl implements UsersService {
     public UserDto getUser(Long userId) {
         return from(usersRepository.findById(userId).orElse(User.builder().build()));
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return usersRepository.findByEmail(email).orElse(User.builder().build());
+    }
+
 
     @Override
     public boolean containsUsername(String username) {

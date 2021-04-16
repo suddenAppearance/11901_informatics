@@ -20,4 +20,6 @@ public interface UsersService {
     User findByEmail(String email);
 
     boolean containsUsername(String username);
+
+    List<UserDto> findAlikeEmail(String email);
 }

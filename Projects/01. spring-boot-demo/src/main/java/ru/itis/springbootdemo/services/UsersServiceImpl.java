@@ -43,4 +43,9 @@ public class UsersServiceImpl implements UsersService {
     public boolean containsUsername(String username) {
         return usersRepository.findByUsername(username).isPresent();
     }
+
+    @Override
+    public List<UserDto> findAlikeEmail(String pre) {
+        return from(usersRepository.findByEmailContainingIgnoreCase(pre));
+    }
 }

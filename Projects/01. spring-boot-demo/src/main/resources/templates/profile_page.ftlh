@@ -17,21 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
             integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
             crossorigin="anonymous"></script>
-    <style>
-        body {
-            background: url(https://avatanplus.com/files/resources/original/577c80ded65a0155be57669e.jpg)
-        }
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            /* Set the fixed height of the footer here */
-            height: 60px;
-            line-height: 60px; /* Vertically center the text there */
-            background-color: #f5f5f5;
-            z-index: 10;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body onload="document.getElementById('navbarDropdown').click(); document.getElementById('navbarDropdown').blur()">
 <nav class="navbar sticky-top navbar-light bg-light navbar-expand-md">

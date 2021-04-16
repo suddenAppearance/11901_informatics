@@ -28,6 +28,7 @@ public class User {
     private String email;
     @Enumerated(value = EnumType.STRING)
     private State state;
+    private String phone;
     private String confirmCode;
     @Column(unique = true)
     private String username;

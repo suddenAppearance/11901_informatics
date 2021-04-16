@@ -30,11 +30,15 @@ public class SignUpServiceImpl implements SignUpService {
     @Autowired
     private MailsService mailsService;
 
+    @Autowired
+    private SmsService smsService;
+
     @Override
     public void signUp(UserForm form) {
         User newUser = User.builder()
                 .email(form.getEmail())
                 .username(form.getUsername())
+                .phone(form.getPhone())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .state(State.NOT_CONFIRMED)
                 .role(Role.USER)
@@ -43,5 +47,6 @@ public class SignUpServiceImpl implements SignUpService {
         usersRepository.save(newUser);
 
         mailsService.sendEmailForConfirm(newUser.getEmail(), newUser.getConfirmCode());
+        smsService.sendSms(newUser.getPhone(), "Вы зарегестрировались");
     }
 }

@@ -40,6 +40,11 @@
 
                     <div id="username_validation"><i class="fa fa-user"></i></div>
                 </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="phone" maxlength="32" required id="id_phone"
+                           placeholder="Номер телефона">
+                    <div id="username_validation"><i class="fa fa-phone"></i></div>
+                </div>
 
                 <div class="form-group help">
                     <input type="password" class="form-control" name="password" maxlength="32" required id="id_password"

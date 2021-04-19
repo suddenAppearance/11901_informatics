@@ -1,6 +1,7 @@
 package ru.itis.springbootdemo.services;
 
 import ru.itis.springbootdemo.dto.UserDto;
+import ru.itis.springbootdemo.dto.UsersPage;
 import ru.itis.springbootdemo.models.User;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface UsersService {
 
     boolean containsUsername(String username);
 
-    List<UserDto> findAlikeEmail(String email);
+    UsersPage search(Integer size, Integer page, String q, String sort, String direction);
 }

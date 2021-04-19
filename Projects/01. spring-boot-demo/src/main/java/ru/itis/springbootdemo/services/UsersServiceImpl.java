@@ -1,8 +1,13 @@
 package ru.itis.springbootdemo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import ru.itis.springbootdemo.dto.UserDto;
+import ru.itis.springbootdemo.dto.UsersPage;
 import ru.itis.springbootdemo.models.User;
 import ru.itis.springbootdemo.repositories.UsersRepository;
 
@@ -45,7 +50,26 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<UserDto> findAlikeEmail(String pre) {
-        return from(usersRepository.findByEmailContainingIgnoreCase(pre));
+    public UsersPage search(Integer size, Integer page, String q, String sortParameter, String directionParameter) {
+        Direction direction = Direction.ASC;
+        Sort sort = Sort.by(direction, "id");
+        if (directionParameter != null) {
+            direction = Direction.fromString(directionParameter);
+
+        }
+        if (sortParameter != null) {
+            sort = Sort.by(direction, sortParameter);
+        }
+        if (q == null) {
+            q = "empty";
+        }
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<User> usersPage = usersRepository.search(q, pageRequest);
+        return UsersPage.builder()
+                .pagesCount(usersPage.getTotalPages())
+                .users(from(usersPage.getContent()))
+                .build();
     }
+
+
 }

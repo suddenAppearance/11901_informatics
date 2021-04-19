@@ -36,4 +36,5 @@ public class UsersController {
     public ResponseEntity<UserDto> getUser(@PathVariable("user-id") Long userId) {
         return ResponseEntity.ok(usersService.getUser(userId));
     }
+
 }

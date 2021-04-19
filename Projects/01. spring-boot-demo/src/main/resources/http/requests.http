@@ -1,1 +1,5 @@
 GET http://localhost/usernameValidationProcessor?username=sudden_appearance
+
+###
+
+GET http://localhost:8080/users/search?page=2&size=3&sort=email

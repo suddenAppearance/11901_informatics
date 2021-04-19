@@ -61,7 +61,7 @@
         </#if>
     </div>
 </div>
-<footer class="footer text-center">
+<footer class="footer text-center bg-light">
     <i class="fa fa-copyright"></i> Copyright:<a onclick="openInNewTab('https://vk.com/sudden_appearance')">@sudden_appearance</a>
 </footer>
 </body>

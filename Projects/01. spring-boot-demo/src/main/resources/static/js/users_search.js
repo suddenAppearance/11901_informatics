@@ -8,8 +8,7 @@ function search(pre) {
         success: function (response) {
             let e = document.getElementById("found")
             for (let i = 0; i < response.length; i++) {
-                console.log(response[i])
-                e.innerText+=response[i].toString()
+                e.innerText+=response[i].email + "\n"
             }
         },
     });

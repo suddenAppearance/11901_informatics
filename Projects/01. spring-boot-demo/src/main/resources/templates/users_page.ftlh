@@ -26,24 +26,29 @@
     <script src="/js/signUpValidators.js"></script>
 </head>
 <body>
-<div>
-    <div>
-        <input placeholder="Search..." name="search" id="id_search" oninput="search(this.value)">
-    </div>
-    <table class="bg-light">
-        <tr>
-            <th>id</th>
-            <th>email</th>
-        </tr>
-        <#list usersList as user>
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.email}</td>
-            </tr>
-        </#list>
-    </table>
-    <div id="found" class="bg-light">
+<div class="container container-fluid">
 
+    <div class="card">
+        <div class="card-header">
+            Пользователи
+        </div>
+        <div class="card-body">
+            <#list usersList as user>
+            <div class="row col">
+                    <td>${user.id}
+                    <td>${user.email}
+            </div>
+            </#list>
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <input placeholder="Search..." name="search" id="id_search" oninput="search(this.value)">
+        </div>
+        <div id="found" class="bg-light card-body">
+
+        </div>
     </div>
     <script src="js/users_search.js"></script>
 

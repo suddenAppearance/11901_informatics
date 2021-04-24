@@ -1,6 +1,7 @@
 package ru.itis.springbootdemo.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 10.02.2021
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class UserForm {
+    private MultipartFile avatarImageFile;
     private String email;
     private String username;
     private String phone;

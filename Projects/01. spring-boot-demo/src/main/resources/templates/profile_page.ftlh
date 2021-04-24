@@ -41,7 +41,7 @@
                     ${username}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a style="text-decoration: underline" href="#" class="dropdown-item">${username}</a>
+                    <a style="text-decoration: underline" href="#" class="dropdown-item">${username}></a>
                     <div class="dropdown-divider"></div>
                     <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
                 </div>
@@ -56,6 +56,9 @@
     <div class="container">
         <h1 class="display-3">Это ваш профиль</h1>
         <p>Здесь вы можете быстро переходить по нужным вам разделам</p>
+        <img src="${user.avatarUrl}" width="300px" height="300px"/>
+        <h2> ${user.email}</h2>
+        <h2> ${user.phone}</h2>
         <#if !confirmed>
             <p style="color: crimson"> Ваш аккаунт не подтвержден. Подтвердите аккаунт по ссылке, отправленной на электронную почту</p>
         </#if>

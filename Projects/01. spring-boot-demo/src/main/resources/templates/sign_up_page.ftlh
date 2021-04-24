@@ -27,7 +27,7 @@
     <div class="row">
 
         <div class="offset-md-3 col-md-6">
-            <form class="form-horizontal" action="/signUp" method="post">
+            <form class="form-horizontal" action="/signUp" method="post" enctype="multipart/form-data">
                 <span class="heading">РЕГИСТРАЦИЯ</span>
                 <div class="form-group">
                     <input type="email" class="form-control" name="email" maxlength="32" required id="id_email"
@@ -35,8 +35,15 @@
                     <div><i class="fa fa-at"></i></div>
                 </div>
                 <div class="form-group">
+                    <input type="file" class="form-control" name="avatarImageFile" maxlength="32" required
+                           id="id_avatarImageFile"
+                           placeholder="Load Avatar">
+                    <div><i class="fa fa-file"></i></div>
+                </div>
+                <div class="form-group">
                     <input type="text" class="form-control" name="username" maxlength="32" required id="id_username"
-                           placeholder="Никнейм " oninput="pass_identity(); validate_username_usage($('#id_username').val())">
+                           placeholder="Никнейм "
+                           oninput="pass_identity(); validate_username_usage($('#id_username').val())">
 
                     <div id="username_validation"><i class="fa fa-user"></i></div>
                 </div>

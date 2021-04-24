@@ -33,11 +33,15 @@ public class SignUpServiceImpl implements SignUpService {
     @Autowired
     private SmsService smsService;
 
+    @Autowired
+    private FileStorageService storageService;
+
     @Override
     public void signUp(UserForm form) {
         User newUser = User.builder()
                 .email(form.getEmail())
                 .username(form.getUsername())
+                .avatarUrl(storageService.saveFile(form.getAvatarImageFile()))
                 .phone(form.getPhone())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .state(State.NOT_CONFIRMED)

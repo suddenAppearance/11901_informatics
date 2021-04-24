@@ -22,12 +22,14 @@ import java.util.stream.Collectors;
 @Builder
 public class UserDto {
     private Long id;
+    private String avatarUrl;
     private String email;
     private String phone;
     private String username;
     public static UserDto from(User user) {
         return UserDto.builder()
                 .id(user.getId())
+                .avatarUrl(user.getAvatarUrl())
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .username(user.getUsername())

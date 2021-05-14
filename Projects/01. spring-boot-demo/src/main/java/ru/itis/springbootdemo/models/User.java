@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.itis.springbootdemo.dto.UserDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -40,11 +41,27 @@ public class User {
     @OneToMany(mappedBy = "account")
     private List<Resume> resumes;
     private Role role;
+    @ManyToMany
+    @JoinTable(
+            name = "vacancy_like",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+    private List<Vacancy> favouriteVacancies;
+
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    public void like(Vacancy vacancy){
+        this.favouriteVacancies.add(vacancy);
+        vacancy.likes.add(this);
+    }
+    public void unlike(Vacancy vacancy){
+        this.favouriteVacancies.remove(vacancy);
+        vacancy.likes.remove(this);
     }
 }

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать вакансию. HH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.1/examples/sticky-footer-navbar/sticky-footer-navbar.css"
+          rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
+            integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
+            crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url(https://avatanplus.com/files/resources/original/577c80ded65a0155be57669e.jpg)
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+            z-index: 10;
+        }
+    </style>
+    <script>
+        function openInNewTab(url) {
+            let win = window.open(url, '_blank');
+            win.focus();
+        }
+    </script>
+</head>
+<body onload="document.getElementById('navbarDropdown').click(); document.getElementById('navbarDropdown').blur()">
+<nav class="navbar sticky-top navbar-light bg-light navbar-expand-md">
+    <a href="/profile" class="navbar-brand">HeadHunters</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown prefix">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    ${username}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a style="text-decoration: underline" href="/profile"
+                       class="dropdown-item">${username}</a>
+                    <div class="dropdown-divider"></div>
+                    <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid" style="margin-top: 1.2em">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Создание вакансии
+                </div>
+                <div class="card-body">
+                    <form  action="/vacancy/create" method="POST">
+                        <div class="md-form">
+                            <i class="fa fa-user prefix"> </i>
+                            <label class for="name">
+                                Название вакансии
+                            </label>
+                            <input class="form-control" id="name" type="text" name="name" required
+                            />
+                        </div>
+                        <div class="md-form">
+                            <i class="f fa-clock-o prefix"></i>
+                            <label class for="schedule">
+                                График работы
+                            </label>
+                            <input class="form-control" type="text" id="schedule" name="schedule"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-home prefix"></i>
+                            <label class for="type">
+                                Тип работы
+                            </label>
+                            <input class="form-control" type="text" name="type" id="type"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-money prefix"></i>
+                            <label class for="paymentSchedule">
+                                График выдачи зарплаты
+                            </label>
+                            <input class="form-control" type="text" name="paymentSchedule" id="paymentSchedule"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-book prefix"></i>
+                            <label class for="experience">
+                                Стаж работы
+                            </label>
+                            <input class="form-control" type="number" name="experience" id="experience"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-building prefix"></i>
+                            <label class for="place">
+                                Рабочее место
+                            </label>
+                            <input class="form-control" type="text" name="place" id="place"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-map-marker prefix"></i>
+                            <label class for="address">
+                                Адрес места работы
+                            </label>
+                            <input class="form-control" type="text" name="address" id="address"
+                            /></div>
+                        <div class="md-form md-textarea md-outline">
+                            <i class="fa fa-exclamation prefix"></i>
+                            <label for="requirements">
+                                Обязанности
+                            </label>
+                            <textarea class="form-control" name="requirements" id="requirements"
+                            ></textarea>
+                        </div>
+                        <div class="md-form md-textarea md-outline">
+                            <i class="fa fa-align-justify prefix"></i>
+                            <label class for="description">
+                                Описание
+                            </label>
+                            <textarea class="form-control" type="text" name="description"
+                                      id="description"
+                            ></textarea></div>
+                        <div class="md-form">
+                            <i class="fa fa-address-book-o prefix"></i>
+                            <label class for="contactInfo">
+                                Контактная информация
+                            </label>
+                            <input class="form-control" type="text" name="contactInfo" id="contactInfo"
+                            /></div>
+                        <div class="md-form">
+                            <i class="fa fa-credit-card prefix"></i>
+                            <label class for="salary">
+                                Зароботная плата
+                            </label>
+                            <input class="form-control" type="number" name="salary" id="salary"
+                            /></div>
+
+                        <input class="btn btn-outline-primary" type="submit" value="Создать"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer text-center">
+    <i class="fa fa-copyright"></i> Copyright:<a onclick="openInNewTab('https://vk.com/sudden_appearance')">@sudden_appearance</a>
+</footer>
+</body>
+</html>

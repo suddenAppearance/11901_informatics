@@ -12,9 +12,9 @@ public interface VacanciesService {
     List<Vacancy> vacanciesOf(String email);
     List<Vacancy> vacancies();
     void createVacancy(VacancyForm vacancyForm, String userEmail);
-    void delete(Long id);
+    void delete(Long id, String username);
     Optional<Vacancy> findVacancy(Long id);
-    void update(Vacancy vacancy);
+    void update(Vacancy vacancy, String username);
     void like(Long vacancyId, String userEmail);
     void unlike(Long vacancyId, String userEmail);
     boolean isLiked(Long vacancyId, String userEmail);

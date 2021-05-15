@@ -16,11 +16,11 @@ public interface ResumesService {
 
     List<Resume> resumes();
 
-    void delete(Long id);
+    void delete(Long id, String username);
 
     Optional<Resume> findResume(Long id);
 
-    void update(Resume resume);
+    void update(Resume resume, String username);
 
     void like(Long resumeId, String userEmail);
 

@@ -73,13 +73,13 @@ public class VacanciesController {
         Vacancy vacancy = Vacancy.from(vacancyForm);
         vacancy.setId(id);
         vacancy.setAccount(usersService.findByEmail(authentication.getName()));
-        vacanciesService.update(vacancy);
+        vacanciesService.update(vacancy, authentication.getName());
         return "redirect:/profile/vacancies";
     }
 
     @PostMapping("vacancy/delete")
-    public String postVacancyDelete(@RequestParam("id") Long id) {
-        vacanciesService.delete(id);
+    public String postVacancyDelete(@RequestParam("id") Long id, Authentication authentication) {
+        vacanciesService.delete(id, authentication.getName());
         return "redirect:/profile/vacancies";
     }
 

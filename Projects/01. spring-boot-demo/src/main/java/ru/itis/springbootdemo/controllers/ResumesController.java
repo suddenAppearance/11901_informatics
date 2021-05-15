@@ -72,13 +72,13 @@ public class ResumesController {
         Resume resume = Resume.from(resumeForm);
         resume.setId(id);
         resume.setAccount(usersService.findByEmail(authentication.getName()));
-        resumesService.update(resume);
+        resumesService.update(resume, authentication.getName());
         return "redirect:/profile/resumes";
     }
 
     @PostMapping("resume/delete")
-    public String postResumeDelete(@RequestParam("id") Long id) {
-        resumesService.delete(id);
+    public String postResumeDelete(@RequestParam("id") Long id, Authentication authentication) {
+        resumesService.delete(id, authentication.getName());
         return "redirect:/profile/resumes";
     }
 
@@ -105,7 +105,7 @@ public class ResumesController {
     @GetMapping("/profile/resumes/saved")
     public String getMyFavouriteResumes(Model model, Authentication authentication) {
         model.addAttribute("username", authentication.getName());
-        model.addAttribute("resumes", usersService.findByEmail(authentication.getName()).getFavouriteResumes);
+        model.addAttribute("resumes", usersService.findByEmail(authentication.getName()).getFavouriteResumes());
         return "resumes_page";
     }
 

@@ -1,7 +1,9 @@
 package ru.itis.springbootdemo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import ru.itis.springbootdemo.dto.ResumeForm;
 import ru.itis.springbootdemo.models.Resume;
 import ru.itis.springbootdemo.models.User;
@@ -44,8 +46,11 @@ public class ResumesServiceImpl implements ResumesService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
         Resume resume = resumesRepository.findById(id).orElseThrow(IllegalStateException::new);
+        if (!resume.getAccount().getEmail().equals(username)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         List<User> users = resume.getLikes();
         int i = 0;
         while (i < users.size()) {
@@ -64,7 +69,10 @@ public class ResumesServiceImpl implements ResumesService {
     }
 
     @Override
-    public void update(Resume resume) {
+    public void update(Resume resume, String username) {
+        if(!resume.getAccount().getEmail().equals(username)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         resumesRepository.save(resume);
     }
 

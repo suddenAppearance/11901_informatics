@@ -1,7 +1,10 @@
 package ru.itis.springbootdemo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 import ru.itis.springbootdemo.dto.VacancyForm;
 import ru.itis.springbootdemo.models.User;
 import ru.itis.springbootdemo.models.Vacancy;
@@ -37,8 +40,11 @@ public class VacanciesServiceImpl implements VacanciesService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
         Vacancy vacancy = vacanciesRepository.findById(id).orElseThrow(IllegalStateException::new);
+        if (!vacancy.getAccount().getEmail().equals(username)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         List<User> users = vacancy.getLikes();
         int i = 0;
         while (i < users.size()) {
@@ -57,7 +63,10 @@ public class VacanciesServiceImpl implements VacanciesService {
     }
 
     @Override
-    public void update(Vacancy vacancy) {
+    public void update(Vacancy vacancy, String username) {
+        if(!vacancy.getAccount().getEmail().equals(username)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         vacanciesRepository.save(vacancy);
     }
 

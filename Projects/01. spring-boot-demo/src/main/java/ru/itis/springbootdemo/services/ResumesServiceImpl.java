@@ -45,6 +45,16 @@ public class ResumesServiceImpl implements ResumesService {
 
     @Override
     public void delete(Long id) {
+        Resume resume = resumesRepository.findById(id).orElseThrow(IllegalStateException::new);
+        List<User> users = resume.getLikes();
+        int i = 0;
+        while (i < users.size()) {
+            User user = users.get(i);
+            user.unlike_resume(resume);
+            usersRepository.save(user);
+            i++;
+        }
+        resumesRepository.save(resume);
         resumesRepository.deleteById(id);
     }
 

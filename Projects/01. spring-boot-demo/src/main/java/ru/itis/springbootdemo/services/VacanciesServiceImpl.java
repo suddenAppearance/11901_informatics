@@ -38,6 +38,16 @@ public class VacanciesServiceImpl implements VacanciesService {
 
     @Override
     public void delete(Long id) {
+        Vacancy vacancy = vacanciesRepository.findById(id).orElseThrow(IllegalStateException::new);
+        List<User> users = vacancy.getLikes();
+        int i = 0;
+        while (i < users.size()) {
+            User user = users.get(i);
+            user.unlike_vacancy(vacancy);
+            usersRepository.save(user);
+            i++;
+        }
+        vacanciesRepository.save(vacancy);
         vacanciesRepository.deleteById(id);
     }
 

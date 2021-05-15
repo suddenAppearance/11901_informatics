@@ -44,29 +44,34 @@
 <nav class="navbar sticky-top navbar-light bg-light navbar-expand-md">
     <a href="/profile" class="navbar-brand">HeadHunters</a>
     <#if username??>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        ${username}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a style="text-decoration: underline" href="/profile"
-                           class="dropdown-item">${username}</a>
-                        <div class="dropdown-divider"></div>
-                        <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
-                    </div>
-
-                </li>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/vacancies">Вакансии</a></li>
+                <li class="nav-item"><a class="nav-link" href="/resumes">Резюме</a></li>
             </ul>
+            <div class="nav-item dropdown ml-auto">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    ${username}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a style="text-decoration: underline" href="/profile"
+                       class="dropdown-item">${username}</a>
+                    <div class="dropdown-divider"></div>
+                    <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
+                </div>
+
+            </div>
         </div>
     <#else>
-        <a href="/login" class="nav-link ml-auto">Войти</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/vacancies">Вакансии</a></li>
+                <li class="nav-item"><a class="nav-link" href="/resumes">Резюме</a></li>
+            </ul>
+            <a href="/login" class="nav-link ml-auto">Войти</a>
+        </div>
     </#if>
 
 

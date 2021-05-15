@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.itis.springbootdemo.dto.UserDto;
 
 import javax.persistence.*;
@@ -41,13 +43,15 @@ public class User {
     @OneToMany(mappedBy = "account")
     private List<Resume> resumes;
     private Role role;
-    @ManyToMany
+    @ManyToMany()
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "vacancy_like",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
     private List<Vacancy> favouriteVacancies;
-    @ManyToMany
+    @ManyToMany()
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "resume_like",
             joinColumns = @JoinColumn(name = "account_id"),

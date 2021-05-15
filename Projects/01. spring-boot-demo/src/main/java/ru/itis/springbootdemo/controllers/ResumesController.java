@@ -98,10 +98,14 @@ public class ResumesController {
 
     @GetMapping("/profile/resumes")
     public String getMyResumes(Model model, Authentication authentication) {
-
         model.addAttribute("username", authentication.getName());
-
         model.addAttribute("resumes", resumesService.resumesOf(authentication.getName()));
+        return "resumes_page";
+    }
+    @GetMapping("/profile/resumes/saved")
+    public String getMyFavouriteResumes(Model model, Authentication authentication) {
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("resumes", usersService.findByEmail(authentication.getName()).getFavouriteResumes);
         return "resumes_page";
     }
 

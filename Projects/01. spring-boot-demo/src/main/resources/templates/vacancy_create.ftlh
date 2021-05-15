@@ -79,7 +79,7 @@
                     Создание вакансии
                 </div>
                 <div class="card-body">
-                    <form  action="/vacancy/create" method="POST">
+                    <form action="/vacancy/create" method="POST">
                         <div class="md-form">
                             <i class="fa fa-user prefix"> </i>
                             <label class for="name">

@@ -114,12 +114,7 @@
                             <i></i>
                             <label class for="id_type">Тип работы</label>
                             <input class="form-control" type="text" name="type" id="id_type"/></div>
-                        <label class for="id_workplaces">
-                            Опыт работы
-                        </label>
-                        <div id="id_workplaces" class="form-horizontal">
-
-                        </div>
+                        <div>
                             <i></i>
                             <label class for="id_description"> Описание</label>
                             <textarea class="form-control" name="description" id="id_description">
@@ -127,15 +122,15 @@
                             </textarea></div>
                         <div class="md-form">
                             <i></i>
-                            <label class for="id_contact_info">Контактная информация</label>
-                            <input class="form-control" type="text" name="contact_info" id="id_contact_info"/>
+                            <label class for="id_contactInfo">Контактная информация</label>
+                            <input class="form-control" type="text" name="contactInfo" id="id_contactInfo"/>
                         </div>
                         <div class="md-form">
                             <i></i>
                             <label class for="id_salary">Зароботная плата</label>
                             <input class="form-control" name="salary" id="id_salary" type="number"/></div>
 
-                        <input type="button" class="btn btn-outline-primary" id="id_submit_resume"
+                        <input type="submit" class="btn btn-outline-primary" id="id_submit_resume"
                                value="Создать"/>
                     </form>
                 </div>

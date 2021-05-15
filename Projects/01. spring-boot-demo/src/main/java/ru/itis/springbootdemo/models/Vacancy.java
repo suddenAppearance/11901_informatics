@@ -34,7 +34,7 @@ public class Vacancy {
     String description;
     Integer salary;
     String contactInfo;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     User account;
     @ManyToMany(mappedBy = "favouriteVacancies")

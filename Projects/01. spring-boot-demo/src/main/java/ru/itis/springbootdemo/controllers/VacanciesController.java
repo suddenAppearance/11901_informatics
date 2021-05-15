@@ -1,5 +1,6 @@
 package ru.itis.springbootdemo.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -100,6 +101,13 @@ public class VacanciesController {
     public String getMyVacancies(Model model, Authentication authentication) {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("vacancies", vacanciesService.vacanciesOf(authentication.getName()));
+        return "vacancies_page";
+    }
+
+    @GetMapping("/profile/vacancies/saved")
+    public String getMyFavouriteVacancies(Model model, Authentication authentication){
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("vacancies", usersService.findByEmail(authentication.getName()).getFavouriteVacancies());
         return "vacancies_page";
     }
 

@@ -18,5 +18,4 @@ public interface VacanciesService {
     void like(Long vacancyId, String userEmail);
     void unlike(Long vacancyId, String userEmail);
     boolean isLiked(Long vacancyId, String userEmail);
-    List<Vacancy> saved(User user);
 }

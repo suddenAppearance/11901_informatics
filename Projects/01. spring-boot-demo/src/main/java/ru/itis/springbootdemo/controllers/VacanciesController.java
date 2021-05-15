@@ -58,7 +58,7 @@ public class VacanciesController {
     }
 
     @GetMapping("vacancy/edit")
-    public String getVacancyEdit(@RequestParam("id") Long vacancyId, Model model, Authentication authentication){
+    public String getVacancyEdit(@RequestParam("id") Long vacancyId, Model model, Authentication authentication) {
         if (authentication != null) {
             model.addAttribute("username", authentication.getName());
         }
@@ -66,30 +66,41 @@ public class VacanciesController {
         model.addAttribute("vacancy", vacancy);
         return "vacancy_edit";
     }
+
     @PostMapping("vacancy/edit")
-    public String postVacancyEdit(@RequestParam("id") Long id, VacancyForm vacancyForm, Authentication authentication){
+    public String postVacancyEdit(@RequestParam("id") Long id, VacancyForm vacancyForm, Authentication authentication) {
         Vacancy vacancy = Vacancy.from(vacancyForm);
         vacancy.setId(id);
         vacancy.setAccount(usersService.findByEmail(authentication.getName()));
         vacanciesService.update(vacancy);
         return "redirect:/profile/vacancies";
     }
+
     @PostMapping("vacancy/delete")
-    public String postVacancyDelete(@RequestParam("id") Long id){
+    public String postVacancyDelete(@RequestParam("id") Long id) {
         vacanciesService.delete(id);
         return "redirect:/profile/vacancies";
     }
+
     @PostMapping("/vacancy/like")
     @ResponseBody
-    public ResponseEntity<String> postVacancyLike(@RequestParam("id") Long id, Authentication authentication){
+    public ResponseEntity<String> postVacancyLike(@RequestParam("id") Long id, Authentication authentication) {
         vacanciesService.like(id, authentication.getName());
         return ResponseEntity.ok("success");
     }
+
     @PostMapping("/vacancy/unlike")
     @ResponseBody
-    public ResponseEntity<String> postVacancyUnLike(@RequestParam("id") Long id, Authentication authentication){
+    public ResponseEntity<String> postVacancyUnLike(@RequestParam("id") Long id, Authentication authentication) {
         vacanciesService.unlike(id, authentication.getName());
         return ResponseEntity.ok("success");
+    }
+
+    @GetMapping("/profile/vacancies")
+    public String getMyVacancies(Model model, Authentication authentication) {
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("vacancies", vacanciesService.vacanciesOf(authentication.getName()));
+        return "vacancies_page";
     }
 
 }

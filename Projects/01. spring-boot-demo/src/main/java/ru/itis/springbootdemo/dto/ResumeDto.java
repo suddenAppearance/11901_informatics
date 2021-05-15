@@ -16,10 +16,9 @@ public class ResumeDto {
     Date created;
     Boolean readyToBusinessTrip;
     Boolean moving;
-    String sphere;
     String schedule;
     String type;
     String description;
-    String contact_info;
+    String contactInfo;
     Integer salary;
 }

@@ -58,11 +58,11 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    $user.getLogin()
+                    ${username}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a style="text-decoration: underline" href="/profile"
-                       class="dropdown-item">$user.getLogin()</a>
+                       class="dropdown-item">${username}</a>
                     <div class="dropdown-divider"></div>
                     <a style="color:red" href="/logout" class="dropdown-item">Выйти</a>
                 </div>

@@ -2,18 +2,14 @@ package ru.itis.springbootdemo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.itis.springbootdemo.dto.UserDto;
 import ru.itis.springbootdemo.dto.VacancyForm;
 import ru.itis.springbootdemo.models.User;
 import ru.itis.springbootdemo.models.Vacancy;
 import ru.itis.springbootdemo.repositories.UsersRepository;
 import ru.itis.springbootdemo.repositories.VacanciesRepository;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Component
 public class VacanciesServiceImpl implements VacanciesService {
@@ -61,7 +57,7 @@ public class VacanciesServiceImpl implements VacanciesService {
     public void like(Long vacancyId, String userEmail) {
         Vacancy vacancy = vacanciesRepository.findById(vacancyId).orElseThrow(IllegalStateException::new);
         User user = usersRepository.findByEmail(userEmail).orElseThrow(IllegalStateException::new);
-        user.like(vacancy);
+        user.like_vacancy(vacancy);
         vacanciesRepository.save(vacancy);
         }
 
@@ -69,7 +65,7 @@ public class VacanciesServiceImpl implements VacanciesService {
     public void unlike(Long vacancyId, String userEmail) {
         Vacancy vacancy = vacanciesRepository.findById(vacancyId).orElseThrow(IllegalStateException::new);
         User user = usersRepository.findByEmail(userEmail).orElseThrow(IllegalStateException::new);
-        user.unlike(vacancy);
+        user.unlike_vacancy(vacancy);
         vacanciesRepository.save(vacancy);
     }
 
@@ -78,10 +74,5 @@ public class VacanciesServiceImpl implements VacanciesService {
         Vacancy vacancy = vacanciesRepository.findById(vacancyId).orElseThrow(IllegalStateException::new);
         User user = usersRepository.findByEmail(userEmail).orElseThrow(IllegalStateException::new);
         return user.getFavouriteVacancies().contains(vacancy);
-    }
-
-    @Override
-    public List<Vacancy> saved(User user) {
-        return null;
     }
 }

@@ -47,21 +47,30 @@ public class User {
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
     private List<Vacancy> favouriteVacancies;
+    @ManyToMany
+    @JoinTable(
+            name = "resume_like",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+    private List<Resume> favouriteResumes;
 
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    public void like(Vacancy vacancy){
+    public void like_vacancy(Vacancy vacancy) {
         this.favouriteVacancies.add(vacancy);
         vacancy.likes.add(this);
     }
-    public void unlike(Vacancy vacancy){
+
+    public void unlike_vacancy(Vacancy vacancy) {
         this.favouriteVacancies.remove(vacancy);
         vacancy.likes.remove(this);
+    }
+
+    public void like_resume(Resume resume) {
+        this.favouriteResumes.add(resume);
+        resume.likes.add(this);
+    }
+
+    public void unlike_resume(Resume resume){
+        this.favouriteResumes.remove(resume);
+        resume.likes.remove(this);
     }
 }

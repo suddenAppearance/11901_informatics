@@ -56,7 +56,7 @@
     <div class="container">
         <h1 class="display-3">Это ваш профиль</h1>
         <p>Здесь вы можете быстро переходить по нужным вам разделам</p>
-        <img src="${user.avatarUrl}" width="300px" height="300px"/>
+        <img src="${user.avatarUrl!"https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg"}" width="300px" height="300px"/>
         <h2> ${user.email}</h2>
         <h2> ${user.phone}</h2>
         <#if !confirmed>

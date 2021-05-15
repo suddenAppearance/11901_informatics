@@ -1,17 +1,23 @@
 package ru.itis.springbootdemo.dto;
 
+import lombok.*;
+
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class ResumeForm {
     String id;
     String name;
     Date created;
     Boolean readyToBusinessTrip;
     Boolean moving;
-    String sphere;
     String schedule;
     String type;
     String description;
-    String contact_info;
+    String contactInfo;
     Integer salary;
 }

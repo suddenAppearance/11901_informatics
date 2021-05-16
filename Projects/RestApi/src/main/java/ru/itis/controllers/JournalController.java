@@ -43,6 +43,10 @@ public class JournalController {
     @CrossOrigin(origins = "http://localhost")
     @PostMapping("/journals")
     public ResponseEntity<JournalDto> createJournal(@RequestBody JournalForm journalForm) {
+        Journal journal = journalsService.getLastByClassId(journalForm.getClassroomId()).orElse(null);
+        if (journal != null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Key need to be returned before it can be taken");
+        }
         return ResponseEntity.ok(journalsService.save(Journal.builder()
                 .user(usersService.findByToken(journalForm.getToken()))
                 .classroom(classroomsService.getById(journalForm.getClassroomId())).build()));
@@ -50,10 +54,13 @@ public class JournalController {
 
     @CrossOrigin(origins = "http://localhost")
     @PostMapping("/journals/{pk}/returnKey")
-    public ResponseEntity<JournalDto> updateJournal(@PathVariable("pk") Long pk,@RequestBody JournalForm form) {
+    public ResponseEntity<JournalDto> updateJournal(@PathVariable("pk") Long pk, @RequestBody JournalForm form) {
         String token = form.getToken();
         User user = usersService.findByToken(token);
         Journal journal = journalsService.getById(pk);
+        if (journal.getReturned_at() != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already returned");
+        }
         if (!journal.getUser().equals(user)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Key was taken by other user");
         }

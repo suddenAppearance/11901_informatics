@@ -12,6 +12,7 @@ import ru.itis.services.JournalsService;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JournalsServiceImpl implements JournalsService {
@@ -45,6 +46,11 @@ public class JournalsServiceImpl implements JournalsService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
         journalsRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Journal> getLastByClassId(Long classroomId) {
+        return journalsRepository.getLastByClassroomId(classroomId);
     }
 
     @Override

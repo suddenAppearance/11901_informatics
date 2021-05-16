@@ -35,7 +35,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User findByToken(String token) {
-        return usersRepository.findByToken(token).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return usersRepository.findByToken(token).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid token"));
     }
 
     @Override

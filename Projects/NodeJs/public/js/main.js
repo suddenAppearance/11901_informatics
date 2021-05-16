@@ -23,8 +23,8 @@ function createUser() {
         success: function (response) {
             location.reload()
         },
-        errors: function (response) {
-            alert(response.message)
+        error: function (response) {
+            alert(response.responseJSON.message)
         },
         contentType: "application/json"
     })
@@ -51,8 +51,8 @@ function createClassroom() {
         success: function (response) {
             location.reload()
         },
-        errors: function (response) {
-            alert(response.message)
+        error: function (response) {
+            alert(response.responseJSON.message)
         },
         contentType: "application/json"
     })
@@ -88,8 +88,8 @@ function createJournal() {
         success: function (response) {
             location.reload()
         },
-        errors: function (response) {
-            alert(response.message)
+        error: function (response) {
+            alert(response.responseJSON.message)
         },
         contentType: "application/json"
     })
@@ -106,8 +106,8 @@ function returnKey(id){
         success: function (response) {
             location.reload()
         },
-        errors: function (response) {
-            alert(response.message)
+        error: function (response) {
+            alert(response.responseJSON.message)
         },
         contentType: "application/json"
     })

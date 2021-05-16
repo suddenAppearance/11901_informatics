@@ -7,11 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
     <title>Журнал</title>
 </head>
-<body>
-<a href="users.html">Пользователи</a>
-<a href="classrooms.html">Аудитории</a>
-<a href="journal.html">Журнал</a>
+<body onload="loadJournal()">
+<table id="journals_table">
+    <tr>
+        <th>ID</th>
+        <th>ФИО</th>
+        <th>Кабиент</th>
+        <th>Взят</th>
+        <th>Возвращен</th>
+    </tr>
+</table>
+<div>
+    <input id="classroom_id" type="number" placeholder="ID аудитории">
+    <input type="password" id="token" placeholder="Пароль">
+    <button onclick="createJournal()">Создать</button>
+</div>
 </body>
 </html>

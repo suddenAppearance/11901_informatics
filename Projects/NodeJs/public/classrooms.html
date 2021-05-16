@@ -7,11 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <title>Журнал</title>
+    <script src="js/main.js"></script>
+    <title>Аудитории</title>
 </head>
-<body>
-<a href="users.html">Пользователи</a>
-<a href="classrooms.html">Аудитории</a>
-<a href="journal.html">Журнал</a>
+<body onload="loadClassrooms()">
+<table id="classrooms_table">
+    <tr>
+        <th>ID</th>
+        <th>Номер</th>
+    </tr>
+</table>
+    <input type="number" id="number" placeholder="Номер">
+    <button onclick="createClassroom()">Создать</button>
 </body>
 </html>

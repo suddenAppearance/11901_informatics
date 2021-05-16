@@ -28,16 +28,19 @@ public class JournalController {
     @Autowired
     ClassroomsService classroomsService;
 
+    @CrossOrigin(origins = "http://localhost")
     @GetMapping("/journals")
     public ResponseEntity<List<JournalDto>> listJournals() {
         return ResponseEntity.ok(journalsService.all());
     }
 
+    @CrossOrigin(origins = "http://localhost")
     @GetMapping("/journals/{pk}")
     public ResponseEntity<JournalDto> journalInstance(@PathVariable("pk") Long pk) {
         return ResponseEntity.ok(journalsService.findById(pk));
     }
 
+    @CrossOrigin(origins = "http://localhost")
     @PostMapping("/journals")
     public ResponseEntity<JournalDto> createJournal(@RequestBody JournalForm journalForm) {
         return ResponseEntity.ok(journalsService.save(Journal.builder()
@@ -45,16 +48,19 @@ public class JournalController {
                 .classroom(classroomsService.getById(journalForm.getClassroomId())).build()));
     }
 
+    @CrossOrigin(origins = "http://localhost")
     @PostMapping("/journals/{pk}/returnKey")
-    public ResponseEntity<JournalDto> updateJournal(@PathVariable("pk") Long pk, String token) {
+    public ResponseEntity<JournalDto> updateJournal(@PathVariable("pk") Long pk,@RequestBody JournalForm form) {
+        String token = form.getToken();
         User user = usersService.findByToken(token);
         Journal journal = journalsService.getById(pk);
-        if (!journal.getUser().equals(user)){
+        if (!journal.getUser().equals(user)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Key was taken by other user");
         }
         return ResponseEntity.ok(journalsService.returnKey(journal));
     }
 
+    @CrossOrigin(origins = "http://localhost")
     @DeleteMapping("/journals/{pk}")
     public ResponseEntity<?> deleteJournal(@PathVariable("pk") Long pk) {
         journalsService.delete(pk);

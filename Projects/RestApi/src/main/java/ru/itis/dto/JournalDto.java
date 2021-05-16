@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 @Getter
 public class JournalDto {
+    Long id;
     String userFullName;
     Short classroomNumber;
     Date taken_at;
@@ -22,6 +23,7 @@ public class JournalDto {
 
     public static JournalDto from(Journal journal) {
         return JournalDto.builder()
+                .id(journal.getId())
                 .userFullName(journal.getUser().getFullName())
                 .classroomNumber(journal.getClassroom().getNumber())
                 .taken_at(journal.getTaken_at())
